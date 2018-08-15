@@ -1,0 +1,8 @@
+<?php
+    
+    if(_DEBUG)
+        require_once('feed.cls.php');
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/feed' => array('feed.cls.php')));
+?>

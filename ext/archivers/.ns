@@ -1,0 +1,8 @@
+<?php
+    
+    if(_DEBUG)
+        require_once('gzip.cls.php');
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/archivers' => array('gzip.cls.php')));
+?>

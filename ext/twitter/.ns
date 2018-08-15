@@ -1,0 +1,11 @@
+<?php
+    
+    if(_DEBUG) {
+        require_once('restbase.cls.php');
+        require_once('restclient.cls.php');
+        require_once('twitter.cls.php');
+    }
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/twitter' => array('restbase.cls.php', 'twitter.cls.php', 'restclient.cls.php')));
+?>

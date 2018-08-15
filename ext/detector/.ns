@@ -1,0 +1,8 @@
+<?php
+    
+    if(_DEBUG)
+        require_once('detector.cls.php');
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/detector' => array('detector.cls.php')));
+?>

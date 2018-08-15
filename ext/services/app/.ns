@@ -1,0 +1,14 @@
+<?php
+    if(_DEBUG) {
+        require_once('appapi.cls.php');
+    }
+    
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/services/app' => array(
+        'appapi.cls.php',
+    )));
+  
+    Core::$nsScriptFiles = array_merge(Core::$nsScriptFiles, array(_CORE.'ext/services/app' => array(
+        'appapi.cls.js'
+    )));  
+    
+?>

@@ -1,0 +1,11 @@
+<?php
+    
+    if(_DEBUG) {
+        require_once('downloader.cls.php');
+        require_once('fixer.cls.php');
+        require_once('fulltext.cls.php');
+    }
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/downloader' => array('downloader.cls.php', 'fixer.cls.php', 'fulltext.cls.php')));
+?>

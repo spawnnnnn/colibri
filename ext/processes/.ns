@@ -1,0 +1,10 @@
+<?php
+    
+    if(_DEBUG) {
+        require_once('memory.cls.php');
+        require_once('process.cls.php');
+    }
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/processes' => array('memory.cls.php', 'process.cls.php')));
+?>

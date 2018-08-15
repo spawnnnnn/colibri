@@ -1,0 +1,18 @@
+<?php
+
+    if(_DEBUG) {
+        require_once('numeric.cls.php');
+        require_once('strings.cls.php');
+        require_once('randomization.cls.php');
+        require_once('var.cls.php');
+        require_once('date.cls.php');
+        require_once('javascript.cls.php');
+        require_once('html.cls.php');
+        require_once('css.cls.php');
+    }
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'system/utilities' => array('numeric.cls.php', 'strings.cls.php', 'randomization.cls.php', 'var.cls.php', 'date.cls.php', 'javascript.cls.php', 'html.cls.php', 'css.cls.php')));
+    
+  
+?>

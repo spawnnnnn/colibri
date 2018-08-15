@@ -1,0 +1,12 @@
+<?php
+    if(_DEBUG) {
+        require_once('score.cls.php');
+        require_once('report.cls.php');
+    }
+    
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/score' => array(
+        'score.cls.php',
+        'report.cls.php',
+    )));
+    
+?>

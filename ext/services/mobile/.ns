@@ -1,0 +1,14 @@
+<?php
+    if(_DEBUG) {
+        require_once('mobileapi.cls.php');
+    }
+    
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/services/mobile' => array(
+        'mobileapi.cls.php'
+    )));
+  
+    Core::$nsScriptFiles = array_merge(Core::$nsScriptFiles, array(_CORE.'ext/services/mobile' => array(
+        'mobileapi.cls.js'
+    )));  
+    
+?>

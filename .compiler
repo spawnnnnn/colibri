@@ -1,0 +1,363 @@
+<?php
+
+    class PhpPacker {
+        
+        private static function RemoveComments($string) {
+            
+            $newStr  = '';
+            $tokens = token_get_all($string);
+            foreach ($tokens as $token) {
+                $commentTokens = array(T_COMMENT);
+
+                if (defined('T_DOC_COMMENT'))
+                    $commentTokens[] = T_DOC_COMMENT;
+                if (defined('T_ML_COMMENT'))
+                    $commentTokens[] = T_ML_COMMENT;
+
+
+                if (is_array($token)) {
+                    if (in_array($token[0], $commentTokens))
+                        continue;
+
+                    $token = $token[1];
+                }
+
+                $newStr .= $token;
+            }
+
+            $string = $newStr;
+            $string = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/im", "\n", $string);
+            /*$string = preg_replace("/\?>"."<\?php/im", "", $string);
+            $string = preg_replace("/\?"."><"."\?/im", "", $string);*/
+            
+            return $string;
+        }
+        
+        private static function ReadAndWriteFile($file, $handle) {
+            $fc = PhpPacker::RemoveComments(file_get_contents($file));
+            fwrite($handle, $fc, strlen($fc));
+        }
+        
+        private static function ReadAndWriteFileConverted($file, $handle) {
+            $fc = PhpPacker::Convert(PhpPacker::RemoveComments(file_get_contents($file)));
+            fwrite($handle, $fc, strlen($fc));
+        }
+        
+        public static function LoadFilesFromDirRec($path) {
+
+            $ret = array();
+            
+            if(!DirectoryInfo::Exists($path))
+                return $ret;
+            
+            $di = new DirectoryFinder();
+            $files = $di->Files($path, '/\.layout/');
+            foreach($files as $file) {
+                $ret[] = realpath($file->path);
+            }
+            
+            $folders = $di->Directories($path);
+            foreach($folders as $folder) {
+                $ret = array_merge($ret, PhpPacker::LoadFilesFromDirRec($path.$folder->name.'/'));
+            }
+            return $ret;
+            
+        }
+        
+        private static function loadFilesFromDirSvc($path) {
+
+            $ret = array();
+            
+            if(!DirectoryInfo::Exists($path))
+                return $ret;
+                
+            $di = new DirectoryFinder();
+            $files = $di->Files($path, '/\.service/');
+            foreach($files as $file) {
+                $ret[] = $path.$file->name;
+            }
+            
+            $folders = $di->Directories($path);
+            foreach($folders as $folder) {
+                $ret = array_merge($ret, PhpPacker::loadFilesFromDirSvc($path.$folder->name.'/'));
+            }
+            return $ret;
+            
+        }
+        
+        private static function Convert($code) {
+        // $code = load_from_file($code);
+    
+            $code = str_replace('<?php', '<?', $code);
+    
+            if(strpos($code, "<?") === false) {
+                return "echo '\n".str_replace('\'', '\\\'', $code)."\n';";
+            }
+
+            $retNameStart = "echo ";
+            $retNameEnd = ";";
+                                                               
+            $code = str_replace("&lt;?", "<"."?", $code);
+            $code = str_replace("?&gt;", "?".">", $code);
+            
+            $retcode = "";
+            $blocks = array();
+            $lastpos = 0;
+            $i = 1;
+            $splitter = "<?";
+            while(($ipos = strpos($code, $splitter)) !== false) {
+                if($splitter == "?>")
+                    $blocks[] = "<?".substr($code, 0, $ipos)."?>";
+                else
+                    $blocks[] = substr($code, 0, $ipos);
+                $code = substr($code, $ipos + 2);
+                $splitter =    ($splitter == "<?" ? "?>" : "<?");
+            }
+            $blocks[] = substr($code, $ipos);
+
+            $blocks1 = array();
+            foreach($blocks as $block) {
+                if($block == "")
+                    continue;
+                    
+                if(substr(trim($block), 0, 3) == "<?=") {
+                    $cc = trim(substr(trim($block), 3, strlen(trim($block)) - 5));
+                    if(substr($cc, strlen($cc)-1, 1) == ";")
+                        $cc = substr($cc, 0, strlen($cc)-1);
+                        
+                    $blocks1[] = $retNameStart.$cc.$retNameEnd;
+                }
+                else if(substr(trim($block), 0, 2) == "<?")
+                    $blocks1[] = substr(trim($block), 2, strlen(trim($block)) - 4).';';
+                else {
+                    $block = str_replace("\\","\\\\", $block);
+                    $block = str_replace("\"","\\\"", $block);
+                    $block = str_replace("\$","\\\$", $block);
+                    $blocks1[] = $retNameStart."\"".$block."\"".$retNameEnd;
+                }
+            }
+
+            $retcode = "";
+            foreach($blocks1 as $block) {
+                if($block != "")
+                    $retcode .= $block;
+            }
+            
+            return $retcode;
+        }
+        
+        public static function RecompileCore() {
+            
+            $__cdebug = false;
+            if(!_DEBUG) {
+                if(function_exists('runkit_constant_redefine')) {
+                    $__cdebug = true;
+                    runkit_constant_redefine('_DEBUG', true);
+                }
+            }
+            
+            if(!_DEBUG) {
+                out('DEBUG=FALSE, need to be TRUE');
+                return;
+            }
+            
+            $cf = _CACHE.'code/.c.release';
+            $cp = _CACHE.'code/.p.release';
+            $domainPath = _CACHE.'code/.tpl.release';
+            $servicesPath = _CACHE.'code/.svc.release';
+            
+            if(file_exists($cf)) {
+                unlink($cf);
+                touch($cf);
+            }
+            
+            $handle = fopen($cf, "w");
+            foreach(Core::$files as $name => $files) {
+                foreach($files as $file) 
+                    PhpPacker::ReadAndWriteFile($name.'/'.$file, $handle);
+            }
+            
+            PhpPacker::ReadAndWriteFile(_CORE.'.core', $handle);
+
+            fclose($handle);
+            
+            if(file_exists($cp)) {
+                unlink($cp);
+                touch($cp);
+            }
+
+            $handle = fopen($cp, "w");
+            foreach(Core::$projectFiles as $name => $files) {
+                foreach($files as $file) 
+                    PhpPacker::ReadAndWriteFile($name.'/'.$file, $handle);
+            }
+            
+            // compiling modules
+            $modules = Config::Load(_MODS);
+            $modules = $modules->Query('./descendant::module');
+            foreach($modules as $mod) {
+                if($mod->attributes->template)
+                    PhpPacker::ReadAndWriteFile(_MODULES.$mod->attributes->template->value, $handle);
+            }
+            
+            fclose($handle);
+            
+            // compiling js files
+            self::compileJs();
+            
+            // compiling css files
+            self::compileCss();           
+            
+            /* compiling templates */
+            $xml = Config::Load(_PAGES);
+            $domains = $xml->Query('//domain');
+            //out('found ', $domains->count, 'domains');
+            $files = array();
+            foreach($domains as $domain) {
+                
+                $path = $domain->attributes->location->value;
+                $files = array_merge($files, PhpPacker::LoadFilesFromDirRec($path));
+                
+                
+            }
+            
+            foreach($modules as $mod) {
+                
+                $module = $mod->attributes->entry->value;
+                
+                $m = ModuleManager::$i->InitModule($mod);
+                try {
+                    if(ClassKit::Exists($module, 'CompilerFiles'))
+                        $files = array_merge($files, $m->CompilerFiles());
+                } catch(Exception $e) {
+                    out($e->getMessage());
+                }
+                
+            }
+
+            
+            if(file_exists($domainPath)) {
+                unlink($domainPath);
+                touch($domainPath);
+            }
+            $handle = fopen($domainPath, "w");
+            
+            $docPath = isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : '';
+            foreach($files as $file) {
+                $finfo = pathinfo($file);
+                if($finfo['extension'] !== 'layout')
+                    continue;
+                    
+                $file = str_replace($docPath.'/', _PATH, $file);
+
+                $c = "<?php\n\n/* generated function for ".$file." template */\nfunction tpl_".md5($file)."(\$args, \$layout = null, \$template = null) { \n";
+                fwrite($handle, $c, strlen($c));
+                
+                PhpPacker::ReadAndWriteFileConverted($file, $handle);
+                
+                $c = "\n}\n?>";    
+                fwrite($handle, $c, strlen($c));
+                
+            }
+
+
+            /* compiling services */
+            $files = array(); $files = array_merge($files, PhpPacker::loadFilesFromDirSvc(_SERVICE));
+
+            if(file_exists($servicesPath)) {
+                unlink($servicesPath);
+                touch($servicesPath);
+            }
+            $handle = fopen($servicesPath, "w");
+            
+
+            foreach($files as $file) {
+                $finfo = pathinfo($file);
+                if($finfo['extension'] !== 'service')
+                    continue;
+                                                                                             
+                $c = "<?php\n\n/* generated function for ".$file." service */\nfunction svc_".md5($file)."(\$args, \$service = null) { \n";
+                fwrite($handle, $c, strlen($c));
+                
+                PhpPacker::ReadAndWriteFileConverted($file, $handle);
+                
+                $c = "\n}\n?>";    
+                fwrite($handle, $c, strlen($c));
+                
+            }
+
+
+
+            system('chmod 777 '.$cf);
+            system('chmod 777 '.$cp);
+            system('chmod 777 '.$domainPath);
+            system('chmod 777 '.$servicesPath);
+            
+            
+            if($__cdebug)
+                runkit_constant_redefine('_DEBUG', false);
+            
+        }  
+
+        protected static function compileJs() {
+            $jp = _CACHE.'code/.js.release';
+            
+            $content = '';
+            foreach(Core::$nsScriptFiles as $path => $scripts) {
+                foreach($scripts as $script) {
+                    $script = $path.'/'.$script;
+                    
+                    if(!FileInfo::Exists(_PATH.$script))                
+                        throw new Exception('file not exists '._PATH.$script);
+
+                    $content .= '/* script file begin '.$script.'*/'."\n\n";
+                    //$content .= Javascript::Pack(FileInfo::ReadAll(_PATH.$script))."\n\n";
+                    $content .= FileInfo::ReadAll(_PATH.$script)."\n\n";
+                    $content .= '/* script file end '.$script.'*/'."\n\n";
+                }
+            }
+            
+            if (FileInfo::Exists($jp)) {
+                FileInfo::Delete($jp);
+            }
+            if (!FileInfo::Exists($jp)) {
+                FileInfo::WriteAll($jp, $content, true, 0x777);
+            }
+            
+            system('chmod 777 '.$jp);
+        }
+        
+        protected static function compileCss() {
+            $cssp = _CACHE.'code/.css.release';
+            
+            $content = '';
+            foreach(Core::$nsStyleFiles as $path => $styles) {
+                foreach($styles as $style) {
+                    $style = $path.'/'.$style;
+                    
+                    if(!FileInfo::Exists(_PATH.$style))                
+                        throw new Exception('file not exists '._PATH.$style);
+
+                    $content .= '/* css file begin '.$style.'*/'."\n\n";
+                    //$content .= Javascript::Pack(FileInfo::ReadAll(_PATH.$script))."\n\n";
+                    $content .= FileInfo::ReadAll(_PATH.$style)."\n\n";
+                    $content .= '/* css file end '.$style.'*/'."\n\n";
+                }
+            }
+            
+            if (FileInfo::Exists($cssp))
+                FileInfo::Delete($cssp);
+            
+            if (!FileInfo::Exists($cssp)) {
+                FileInfo::WriteAll($cssp, $content, true, 0x777);
+            }
+            
+            system('chmod 777 '.$cssp);
+        }
+        
+          
+    }
+
+
+    
+?>

@@ -1,0 +1,10 @@
+<?php
+    if(_DEBUG) {
+        require_once('servicecache.cls.php');
+    }
+    
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/servicecache' => array(
+        'servicecache.cls.php'
+    )));
+    
+?>

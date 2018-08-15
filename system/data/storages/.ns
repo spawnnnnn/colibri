@@ -1,0 +1,17 @@
+<?php
+
+    /// Namespace file for System::Data
+
+    if(_DEBUG) {
+        require_once('connectioninfo.cls.php');
+        require_once('connection.cls.php');
+        require_once('command.cls.php');
+        require_once('storage.cls.php');
+        require_once('reader.cls.php');
+    }
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'system/data/storages' => array('connectioninfo.cls.php', 'connection.cls.php', 'command.cls.php', 'storage.cls.php', 'reader.cls.php')));
+    
+
+?>

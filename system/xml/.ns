@@ -1,0 +1,12 @@
+<?php
+
+    if(_DEBUG) {
+        require_once('common.cls.php');
+        require_once('config.cls.php');
+    }
+        
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'system/xml' => array('common.cls.php', 'config.cls.php')));
+    
+
+?>

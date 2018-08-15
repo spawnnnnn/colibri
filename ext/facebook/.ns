@@ -1,0 +1,11 @@
+<?php
+    
+    
+    if(_DEBUG) {
+        require_once('base_facebook.php');
+        require_once('facebook.inc.php');
+    }
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/facebook' => array('base_facebook.php', 'facebook.inc.php')));
+?>

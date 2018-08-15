@@ -1,0 +1,13 @@
+<?php
+
+    if(_DEBUG) {
+        require_once('pgsqlconnection.cls.php');
+        require_once('pgsqldatareader.cls.php');
+        require_once('pgsqlcommand.cls.php');
+        require_once('pgsqlquerybuilder.cls.php');
+    }    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'system/data/pgsqlclient' => array('pgsqlconnection.cls.php', 'pgsqldatareader.cls.php', 'pgsqlcommand.cls.php', 'pgsqlquerybuilder.cls.php')));
+    
+    
+?>

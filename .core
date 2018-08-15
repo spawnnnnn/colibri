@@ -1,0 +1,322 @@
+<?php
+    
+    // initialization
+    if(_DEBUG) {
+        error_reporting(E_ALL);
+        ini_set('display_errors', 'On');
+    }    
+    
+    // set default error handlers for this project
+    set_error_handler(array('Core', 'ErrorHandler'));
+    set_exception_handler(array('Core', 'ExeptionHandler'));
+
+    // set session save path and start session
+    ini_set('session.save_handler', 'memcache');
+    ini_set('session.save_path', 'tcp://127.0.0.1:11211?persistent=1&weight=1&timeout=1&retry_interval=15');
+    // ini_set('session.save_path', _PATH.'__sessions');
+    // session_start();
+    // session_destroy();
+    
+    // set the default timezone
+    date_default_timezone_set('UTC');
+     
+    
+    /*function jsonencode($arr) {
+        //convmap since 0x80 char codes so it takes all multibyte codes (above ASCII 127). So such characters are being "hidden" from normal json_encoding
+        array_walk_recursive($arr, function (&$item, $key) { if (is_string($item)) $item = mb_encode_numericentity($item, array (0x80, 0xffff, 0, 0xffff), 'UTF-8'); });
+        return mb_decode_numericentity(json_encode($arr), array (0x80, 0xffff, 0, 0xffff), 'UTF-8');
+    }
+    
+    function jsondecode($s) {
+        return json_decode($s);
+    }*/
+      
+    /**
+    * system statistics function
+    */
+
+    function sysstats($last = null, $data = null) { $time = microtime(true); $memory = memory_get_usage(); $r = array('memory' => $memory.' bytes', 'time' => $time.' ticks'); if(!is_null($last)) { $r['lost time'] = round(($time - $last[count($last) - 1]['time'])*1000, 3).' ms'; $r['lost memory'] = ($memory - $last[count($last) - 1]['memory']).' bytes'; $r['data'] = $data; }; return $r;  }
+    
+    /**
+    * first point
+    */
+    global $stats;
+    $stats = array();
+    $stats[] = sysstats(null, 'start');
+      
+    /**
+    * Simple debug output method
+    */
+    function out() {
+        $args = func_get_args();
+        $count = count($args);
+        $result = array();
+        for ($i = 0; $i < $count; $i++){
+            switch (gettype($args[$i])){
+                case "boolean" :
+                    $result[] = $args[$i] ? 'true' : 'false';
+                    break;
+                case "NULL" :
+                    $result[] = "NULL";
+                    break;
+                default :
+                    $result[] = print_r($args[$i], true);
+            }
+        }
+        echo "<pre>\n" . str_replace("<", "&lt;", str_replace(">", "&gt;", implode(" : ", $result)))  . "\n</pre>";
+        if(isset($_SERVER['argv'])) {
+            try { ob_flush(); } catch(Exception $e) {}
+        }
+            
+    }
+    
+    /**
+    * Simple debug output method
+    */
+    function rout() {
+        $args = func_get_args();
+        $count = count($args);
+        $result = array();
+        for ($i = 0; $i < $count; $i++){
+            switch (gettype($args[$i])){
+                case "boolean" :
+                    $result[] = $args[$i] ? 'true' : 'false';
+                    break;
+                case "NULL" :
+                    $result[] = "NULL";
+                    break;
+                default :
+                    $result[] = print_r($args[$i], true);
+            }
+        }
+
+        return "<pre>\n" . str_replace("<", "&lt;", str_replace(">", "&gt;", implode(" : ", $result)))  . "\n</pre>";
+            
+    }
+    
+    function iout($what){
+        $args = func_get_args();
+        $count = count($args);
+        $result = array();
+        for ($i = 0; $i < $count; $i++){
+            switch (gettype($args[$i])){
+                case "boolean" :
+                    $result[] = $args[$i] == false ? 'FALSE' : 'TRUE';
+                    break;
+                case "NULL" :
+                    $result[] = "NULL";
+                    break;
+                default :
+                    $result[] = print_r($args[$i], true);
+            }
+        }
+        
+        $result = print_r($result, true);
+        $result = str_replace("<", "&lt;", str_replace(">", "&gt;", $result));
+
+        $clickevent = "onclick='javascript: iout_toggle(event);'";
+        $result = preg_replace("/\s*?\[(.*)\] \=&gt; (.*?)\n/mi", "\n<div class='legend' ".$clickevent.">[\$1] => \$2</div>\n", $result);
+        $result = preg_replace("/(<div class='legend' ".preg_quote($clickevent).">.*<\/div>)\n\s*?\(/mi", "\n<div class='object'><div class='hilite'>\$1</div><div class='children' style='display: none'>\n", $result);
+        $result = preg_replace("/\n\s*?\)\n/", "\n</div></div>\n", $result);
+        $result = preg_replace("/Array\n\(\n/i", "\n<div class='result'><div class='object'><div class='legend' ".$clickevent.">IOUT - Result</div><div class='children'>\n", $result);
+        
+        echo '
+            <style type="text/css">
+                div.legend {
+                    cursor: default;
+                    cursor: expression("hand");
+                    padding-top: 2px;
+                    padding-bottom: 2px;
+                }
+                
+                div.legend span {
+                    margin-left: 5px;
+                }
+                
+                div.object {
+                    font-size: 12px;
+                    font-family: courier new;
+                }
+                div.children {
+                    margin-left: 50px;
+                    padding-top: 1px;
+                    padding-bottom: 1px;
+                    border-left: 1px solid #f9f9f9;
+                    min-height: 5px;
+                    height: expression("5px");
+                }
+                div.result {
+                    border: 1px solid #f2f2f2;
+                    padding: 10px;
+                }
+                div.hilite {
+                    color: #050;
+                }
+            </style>
+            
+            <script language="javascript">
+                function iout_toggle(e) {
+                    var parent = null;
+                    if(e.srcElement)
+                        parent = e.srcElement.parentElement;    
+                    else {
+                        parent = e.currentTarget.parentNode;
+                    }
+                    if(parent.className == "hilite") {
+                        if(e.srcElement)
+                            parent = parent.parentElement;
+                        else
+                            parent = parent.parentNode;
+                        var children = parent.childNodes[1];
+                        children.style.display = children.style.display == "" ? "none" : "";
+                    }
+                }
+            </script>
+        '.$result.'</div>';
+    }
+    
+    /**
+    * Exception types
+    */
+    class ExceptionTypes {
+        const StopMessage          = 0; // message only, continue processing
+        const StopContinue         = 1; // message?, likely ok to continue processing
+        const StopCrytical         = 2; // message, plus full stop, critical error reached
+    }
+    
+    /**
+    * System exception
+    */
+    class BaseException extends ErrorException {
+        
+        function __construct($message = '', $code = 0, $severity = 0, $filename = '', $lineno = 0){
+            parent::__construct($message, $code, $severity, $filename, $lineno);
+        }
+        
+        function __get($property){
+            switch ($property){
+                case 'message':
+                    return $this->getMessage();
+                case 'code':
+                    return $this->getCode();
+                case 'file':
+                    return $this->getFile();
+                case 'line':
+                    return $this->getLine();
+                case 'severity':
+                    return $this->getSeverity();
+                case 'trace':
+                    return $this->getTraceAsString();
+            }
+        }
+        
+        public function ToString() {
+            return $this->message;
+        }
+    }
+    
+    /**
+    * memcache
+    */
+    class Mem {
+        
+        static $i;
+        
+        public static function Create() {
+            if(!Mem::$i) {
+                Mem::$i = new Memcache();
+                Mem::$i->connect('127.0.0.1', 11211);
+            }
+            return Mem::$i;
+        }
+        
+        public static function Dispose() {
+            if(Mem::$i)
+                Mem::$i->close();
+        }
+        
+        static function Exists($name) {
+            $cacheData = Mem::$i->get($name);
+            if(!$cacheData) {
+                return false;
+            }
+            return true;
+        }
+
+        static function Write($name, $value, $livetime = 600) {
+            return Mem::$i->add($name, $value, false, $livetime);
+        }
+        
+        static function ZWrite($name, $value, $livetime = 600) {
+            return Mem::$i->add($name, $value, MEMCACHE_COMPRESSED, $livetime);
+        }
+        
+        static function Delete($name) {
+            return Mem::$i->delete($name);
+        }
+        
+        static function Read($name) {
+            if(!Mem::Exists($name))
+                return false;
+            return Mem::$i->get($name);
+        }
+        
+    }
+
+    /**
+    * Core class
+    */
+    class Core {
+        
+        private static $loaded = array();
+        public static $files = array();
+        public static $projectFiles = array();
+        
+        public static $nsScriptFiles = array();
+        public static $nsStyleFiles = array();
+        
+        public static function Using($name, $path = _CORE) {
+            
+            // if we'r in release mode, includes are not needed
+            if(!_DEBUG)
+                return false;
+            
+            if(in_array($name, Core::$loaded))
+                return false;
+            
+            $p = str_replace('//', '/', $path.'/'.strtolower(str_replace('::', '/', $name)).'/.ns');
+            if(file_exists($p)) {
+                Core::$loaded[] = $name;
+                require_once($p);
+                return true;
+            }
+
+            return false;
+        }
+        
+        public static function ExeptionHandler($ex) {
+            out("An error was accured: code ".$ex->getCode().' message: '.$ex->getMessage(), debug_backtrace());
+        }
+        
+        public static function ErrorHandler($errno, $errstr, $errfile, $errline ) { 
+            throw new BaseException($errstr, $errno, 1 * E_ERROR | 
+                                                    1 * E_WARNING | 
+                                                    1 * E_PARSE | 
+                                                    1 * E_NOTICE | 
+                                                    1 * E_CORE_ERROR | 
+                                                    1 * E_CORE_WARNING | 
+                                                    1 * E_COMPILE_ERROR | 
+                                                    1 * E_COMPILE_WARNING | 
+                                                    1 * E_USER_ERROR | 
+                                                    1 * E_USER_WARNING | 
+                                                    1 * E_USER_NOTICE | 
+                                                    1 * E_STRICT | 
+                                                    1 * E_RECOVERABLE_ERROR, $errfile, $errline);
+            return false;
+        } 
+            
+    }
+    
+  
+
+?>

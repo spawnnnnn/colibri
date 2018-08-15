@@ -1,0 +1,9 @@
+<?php
+    if(_DEBUG) {
+        require_once('google.cls.php');
+    }
+    
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/shorteners' => array(
+        'google.cls.php'
+    )));
+?>

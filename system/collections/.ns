@@ -1,0 +1,18 @@
+<?php
+    
+    if(_DEBUG) {
+        
+        require_once('list.cls.php');
+        require_once('arraylist.cls.php');
+        
+        require_once('collection.cls.php');
+        require_once('hashtable.cls.php');
+        require_once('objectlist.cls.php');
+        require_once('static.cls.php');
+        
+    }
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'system/collections' => array('list.cls.php', 'arraylist.cls.php', 'collection.cls.php', 'hashtable.cls.php', 'objectlist.cls.php', 'static.cls.php')));
+    
+?>

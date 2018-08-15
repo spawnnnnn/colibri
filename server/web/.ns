@@ -1,0 +1,13 @@
+<?php
+    
+    if(_DEBUG) {
+        require_once('request.cls.php');
+        require_once('response.cls.php');
+        require_once('navigator.cls.php');
+        require_once('blocks.cls.php');
+    }
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'server/web' => array('request.cls.php', 'response.cls.php', 'navigator.cls.php', 'blocks.cls.php')));
+    
+?>

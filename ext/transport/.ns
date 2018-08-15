@@ -1,0 +1,15 @@
+<?php
+    
+    if(_DEBUG) {
+		require('sendpulse/api/sendpulseInterface.php');
+		require('sendpulse/api/sendpulse.php');
+        require('transport.cls.php');
+    }
+
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/transport' => array(
+        'sendpulse/api/sendpulseInterface.php',
+		'sendpulse/api/sendpulse.php',
+        'transport.cls.php',
+    )));
+    
+?>

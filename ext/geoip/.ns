@@ -1,0 +1,12 @@
+<?php
+    
+    if(_DEBUG) {
+        /*require_once('geoipcity.cls.php');
+        require_once('geoipregionvars.cls.php');
+        require_once('geoip.cls.php');*/
+        require_once('geo.cls.php');
+    }
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/geoip' => array('geo.cls.php'))); // 'geoip.cls.php', 'geoipcity.cls.php', 'geoipregionvars.cls.php', 'geo.cls.php'
+?>

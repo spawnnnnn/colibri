@@ -1,0 +1,14 @@
+<?php
+
+    if(_DEBUG) {
+        require_once('point.cls.php');
+        require_once('size.cls.php');
+        require_once('font.cls.php');
+        require_once('graphics.cls.php');
+        require_once('graphics-imagick.cls.php');
+    }
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'system/graphics' => array('point.cls.php', 'size.cls.php', 'font.cls.php', 'graphics.cls.php', 'graphics-imagick.cls.php')));
+    
+?>

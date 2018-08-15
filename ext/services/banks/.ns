@@ -1,0 +1,14 @@
+<?php
+    if(_DEBUG) {
+        require_once('banksapi.cls.php');
+    }
+    
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/services/banks' => array(
+        'banksapi.cls.php',
+    )));
+  
+    Core::$nsScriptFiles = array_merge(Core::$nsScriptFiles, array(_CORE.'ext/services/banks' => array(
+        'banksapi.cls.js'
+    )));  
+    
+?>

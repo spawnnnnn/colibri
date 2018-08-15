@@ -1,0 +1,11 @@
+<?php
+    
+    if(_DEBUG) {
+        require_once('module.cls.php');
+        require_once('manager.cls.php');
+    }
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'system/modules' => array('module.cls.php', 'manager.cls.php')));
+    
+?>

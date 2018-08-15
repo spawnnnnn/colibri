@@ -1,0 +1,9 @@
+<?php
+    if(_DEBUG) {
+        require_once('sms.cls.php');
+    }
+    
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/sms' => array(
+        'sms.cls.php'
+    )));
+?>

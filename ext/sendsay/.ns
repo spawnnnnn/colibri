@@ -1,0 +1,10 @@
+<?php
+    if(_DEBUG) {
+        require_once('sendsay.cls.php');
+    }
+    
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/sendsay' => array(
+        'sendsay.cls.php'
+    )));
+    
+?>

@@ -1,0 +1,13 @@
+<?php
+    
+    if(_DEBUG) {
+        require_once('smtp.cls.php');
+        require_once('pop3.cls.php');
+        require_once('imap.cls.php');
+        require_once('mail.cls.php');
+    }
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'system/io/mail' => array('smtp.cls.php', 'pop3.cls.php', 'imap.cls.php', 'mail.cls.php')));
+
+?>
