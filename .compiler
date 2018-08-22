@@ -146,7 +146,9 @@
             return $retcode;
         }
         
-        public static function RecompileCore() {
+        public static function RecompileCore($log = false) {
+            
+            if($log) $log->WriteLine('Checking _DEBUG mode');
             
             $__cdebug = false;
             if(!_DEBUG) {
@@ -157,9 +159,12 @@
             }
             
             if(!_DEBUG) {
+                if($log) $log->WriteLine('DEBUG=FALSE, need to be TRUE');
                 out('DEBUG=FALSE, need to be TRUE');
                 return;
             }
+            
+            if($log) $log->WriteLine('Creating files .c.release, .p.release, .tpl.release, .svc.release');
             
             $cf = _CACHE.'code/.c.release';
             $cp = _CACHE.'code/.p.release';
@@ -173,8 +178,11 @@
             
             $handle = fopen($cf, "w");
             foreach(Core::$files as $name => $files) {
-                foreach($files as $file) 
+                foreach($files as $file) {
+                    if($log) $log->WriteLine('Writing file ', $name.'/'.$file);
                     PhpPacker::ReadAndWriteFile($name.'/'.$file, $handle);
+            
+                }
             }
             
             PhpPacker::ReadAndWriteFile(_CORE.'.core', $handle);
@@ -188,24 +196,30 @@
 
             $handle = fopen($cp, "w");
             foreach(Core::$projectFiles as $name => $files) {
-                foreach($files as $file) 
+                foreach($files as $file) {
+                    if($log) $log->WriteLine('Writing file ', $name.'/'.$file);
                     PhpPacker::ReadAndWriteFile($name.'/'.$file, $handle);
+                }
             }
             
             // compiling modules
             $modules = Config::Load(_MODS);
             $modules = $modules->Query('./descendant::module');
             foreach($modules as $mod) {
-                if($mod->attributes->template)
+                if($mod->attributes->template) {
+                    if($log) $log->WriteLine('Writing file ', $mod->attributes->template->value);
                     PhpPacker::ReadAndWriteFile(_MODULES.$mod->attributes->template->value, $handle);
+                }
             }
             
             fclose($handle);
             
             // compiling js files
+            if($log) $log->WriteLine('Compiling scripts');
             self::compileJs();
             
             // compiling css files
+            if($log) $log->WriteLine('Compiling styles');
             self::compileCss();           
             
             /* compiling templates */
@@ -216,6 +230,7 @@
             foreach($domains as $domain) {
                 
                 $path = $domain->attributes->location->value;
+                if($log) $log->WriteLine('Compiling '.$path);
                 $files = array_merge($files, PhpPacker::LoadFilesFromDirRec($path));
                 
                 
@@ -227,6 +242,7 @@
                 
                 $m = ModuleManager::$i->InitModule($mod);
                 try {
+                    if($log) $log->WriteLine('Compiling module templates: '.$module);
                     if(ClassKit::Exists($module, 'CompilerFiles'))
                         $files = array_merge($files, $m->CompilerFiles());
                 } catch(Exception $e) {
@@ -236,6 +252,7 @@
             }
 
             
+            if($log) $log->WriteLine('Compiling templates');
             if(file_exists($domainPath)) {
                 unlink($domainPath);
                 touch($domainPath);
@@ -253,6 +270,7 @@
                 $c = "<?php\n\n/* generated function for ".$file." template */\nfunction tpl_".md5($file)."(\$args, \$layout = null, \$template = null) { \n";
                 fwrite($handle, $c, strlen($c));
                 
+                if($log) $log->WriteLine('Writing '.$file);
                 PhpPacker::ReadAndWriteFileConverted($file, $handle);
                 
                 $c = "\n}\n?>";    
@@ -262,6 +280,7 @@
 
 
             /* compiling services */
+            if($log) $log->WriteLine('Writing services');
             $files = array(); $files = array_merge($files, PhpPacker::loadFilesFromDirSvc(_SERVICE));
 
             if(file_exists($servicesPath)) {
@@ -279,6 +298,7 @@
                 $c = "<?php\n\n/* generated function for ".$file." service */\nfunction svc_".md5($file)."(\$args, \$service = null) { \n";
                 fwrite($handle, $c, strlen($c));
                 
+                if($log) $log->WriteLine('Writing '.$file);
                 PhpPacker::ReadAndWriteFileConverted($file, $handle);
                 
                 $c = "\n}\n?>";    
@@ -296,6 +316,8 @@
             
             if($__cdebug)
                 runkit_constant_redefine('_DEBUG', false);
+
+            if($log) $log->WriteLine('Compile complete');
             
         }  
 
