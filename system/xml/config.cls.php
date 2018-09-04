@@ -2,6 +2,15 @@
 
     class Config extends XMLNode {
         
+        public static function Exists($source) {
+            return FileInfo::Exists($source);
+        }
+        
+        public static function Create($source, $xmlRoot = '<root></root>') {
+            FileInfo::Create($source, 0777);
+            FileInfo::WriteAll($source, $xmlRoot);
+        }
+        
         public static function Load($source, $isFile = true) {
             if(FileInfo::Exists($source)) {
                 $content = FileInfo::ReadAll($source);
