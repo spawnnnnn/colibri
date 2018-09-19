@@ -948,3 +948,23 @@ function pathinfo(path) {
         return {};
     }
 }
+
+function _wait(ec,f){
+    try{
+        eval('var t='+ec+';');
+        if(t) {
+            f();
+        }
+        else {
+            setTimeout(function(){
+                _wait(ec,f);
+            }, 100);
+        }
+    }
+    catch(e) {
+        console.log(e); 
+        setTimeout(function(){
+            _wait(ec, f);
+        }, 100);
+    }
+};

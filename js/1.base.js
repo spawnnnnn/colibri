@@ -6,7 +6,6 @@ function construct(constructor, args) {
     return new F();
 }
 
-
 var Base = function() {
     // dummy
 };
