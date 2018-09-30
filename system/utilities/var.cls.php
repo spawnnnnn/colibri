@@ -192,6 +192,15 @@
             return $d;
         }
         
+        public static function ToString($object, $spl1 = ' ', $spl2 = '=', $quote = true, $keyPrefix = '') {
+            $ret = array();
+            $object = (array)$object;
+            foreach($object as $k => $v) {
+                $ret[] = $keyPrefix.$k.$spl2.($quote ? '"' : '').Strings::PrepareAttribute($v).($quote ? '"' : '');
+            }
+            return implode($spl1, $ret);
+        }
+        
     }
     
     if(!function_exists('hex2bin')) {
