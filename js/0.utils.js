@@ -949,6 +949,14 @@ function pathinfo(path) {
     }
 }
 
+function paramsToObject(a) {
+    var obj = {};
+    a.forEach(function(o) {
+        obj[o.name] = o.value;
+    })
+    return obj;
+}
+
 function _wait(ec,f){
     try{
         eval('var t='+ec+';');
