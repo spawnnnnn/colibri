@@ -54,7 +54,6 @@
                         throw new BaseException('There is no service in configuration', 404);
                     
                     $this->_template = $this->_service->attributes->template->value;                
-                    
                 }
                 else {
                     $template = '';

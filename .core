@@ -70,6 +70,29 @@
             
     }
     
+    function cout() {
+        $args = func_get_args();
+        $count = count($args);
+        $result = array();
+        for ($i = 0; $i < $count; $i++){
+            switch (gettype($args[$i])){
+                case "boolean" :
+                    $result[] = $args[$i] ? 'true' : 'false';
+                    break;
+                case "NULL" :
+                    $result[] = "NULL";
+                    break;
+                default :
+                    $result[] = print_r($args[$i], true);
+            }
+        }
+        echo str_replace("<", "&lt;", str_replace(">", "&gt;", implode(" : ", $result)))."\n";
+        if(isset($_SERVER['argv'])) {
+            try { ob_flush(); } catch(Exception $e) {}
+        }
+            
+    }
+    
     /**
     * Simple debug output method
     */
