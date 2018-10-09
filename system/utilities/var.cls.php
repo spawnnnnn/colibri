@@ -33,12 +33,12 @@
         }    
         
         static function IsDate($var) {
-            if(!$value)
+            if(!$var)
                 return false;
-            if(is_null($value))
+            if(is_null($var))
                 return false;
-            if(is_string($value))
-                return strtotime($value) !== false;
+            if(is_string($var))
+                return strtotime($var) !== false;
             else    
                 return true;
         }

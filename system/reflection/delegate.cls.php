@@ -19,7 +19,9 @@
             $args = func_get_args();
             
             // get the needle object
-            if(!is_object($this->_object)) eval('$this->_object='.$this->_object.';');
+            if(!is_null($this->_object) && !is_object($this->_object)) {
+                eval('$this->_object='.$this->_object.';');
+            } 
 
             if(is_null($this->_object)) {
                 if(CodeKit::Exists($handler))
