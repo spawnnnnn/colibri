@@ -20,14 +20,14 @@
      
      
     class hashMessageFile extends hashMessage {
-        function hashMessageFile( $filename ) {
+        function __construct( $filename ) {
             trigger_error('hashMessageFile::hashMessageFile() NOT IMPLEMENTED', E_USER_WARNING);
             return false;
         }
     }
      
     class hashMessageURL extends hashMessage {
-        function hashMessageURL( $url ) {
+        function __construct( $url ) {
             trigger_error('hashMessageURL::hashMessageURL() NOT IMPLEMENTED', E_USER_WARNING);
             return false;
         }
@@ -36,7 +36,7 @@
      
     class hash {
 
-        function hash($str, $mode = 'hex') {
+        function __construct($str, $mode = 'hex') {
             trigger_error('hash::hash() NOT IMPLEMENTED', E_USER_WARNING);
             return false;
         }
@@ -226,7 +226,7 @@
      
     class SHA256Data extends hashData {
         
-        function SHA256Data( $type, $str ) {
+        function __construct( $type, $str ) {
             $type = 'SHA256Message' . $type;
             $this->message = new $type( $str );
             
@@ -241,7 +241,7 @@
     }
      
     class SHA256Message extends hashMessage {
-        function SHA256Message( $str ) {
+        function __construct( $str ) {
             $str .= $this->calculateFooter( strlen( $str ) );
             
             preg_match_all( '#.{64}#', $str, $this->chunk );
@@ -295,7 +295,7 @@
      
      
     class SHA256MessageFile extends hashMessageFile {
-        function SHA256MessageFile( $filename ) {
+        function __construct( $filename ) {
             $this->filename = $filename;
             $this->fp = false;
             $this->size = false;
@@ -372,7 +372,7 @@
     class SHA256MessageURL extends hashMessageURL {
         //    timeout for a socket resource open request
         var $socket_timeout = 5;
-        function SHA256MessageURL( $url ) {
+        function __construct( $url ) {
             $this->fp = false;
             $this->more = true;
             $this->first = true;
