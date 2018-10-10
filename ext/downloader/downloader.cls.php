@@ -88,7 +88,7 @@
             $headers = array();
             try { $headers = get_headers($url); } catch(Exception $e) {}
             
-            $hdr = new Object();
+            $hdr = new ObjectEx();
             foreach($headers as $h) {
                 $hh = explode(":", $h);
                 if(count($hh) > 1) {
@@ -285,7 +285,7 @@
             
             // fix html
                 
-            $d = new Object();    
+            $d = new ObjectEx();    
             $d->titles = $titles;
             $d->descriptions = $descriptions;
             $d->url = $url;

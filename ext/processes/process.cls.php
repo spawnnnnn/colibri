@@ -47,7 +47,7 @@
                 $this->_parentProcessId = $parentpid; // берем ранее взятый пид парент процесса
                 
                 // пишем переданные данные в переменну локальную
-                $this->_data = !$data ? new Object() : $data;
+                $this->_data = !$data ? new ObjectEx() : $data;
                 out($this->_data);
 
                 $self = $this;

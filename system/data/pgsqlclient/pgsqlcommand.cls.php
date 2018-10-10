@@ -3,7 +3,7 @@
     Core::Using('System');
     Core::Using('System::Data::SqlClient');
     
-    final class PgSqlNonQueryInfo extends Object {
+    final class PgSqlNonQueryInfo extends ObjectEx {
         
         public function __construct($type, $insertid, $affected) {
             parent::__construct();

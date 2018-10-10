@@ -3,7 +3,7 @@
     Core::Using("System::Utilities");
     Core::Using("System::Events");
     
-    class Object extends IEventDispatcher {
+    class ObjectEx extends IEventDispatcher {
         
         protected $_original;
         protected $_data;
@@ -13,7 +13,7 @@
             if(is_null($data))
                 $this->_data = array();
             else {
-                if($data instanceof Object) {
+                if($data instanceof ObjectEx) {
                     $this->_data = $data->ToArray();
                     $this->_prefix = $data->prefix;
                 }
@@ -104,10 +104,10 @@
                 }
                 else {
                     if(is_object($v)) {
-                        if($v instanceOf Object)
+                        if($v instanceOf ObjectEx)
                             $v = $v->ToString();
                         else if($v instanceOf stdClass){
-                            $vv = new Object($v);
+                            $vv = new ObjectEx($v);
                             $v = $vv->ToString();
                         }
                         else 
@@ -142,10 +142,10 @@
                 }
                 else {
                     if(is_object($v)) {
-                        if($v instanceOf Object)
+                        if($v instanceOf ObjectEx)
                             $v = $v->ExportTable();
                         else if($v instanceOf stdClass){
-                            $vv = new Object($v);
+                            $vv = new ObjectEx($v);
                             $v = $vv->ExportTable();
                         }
                         else 
@@ -169,29 +169,29 @@
             $return = array();
             foreach($object as $key => $value) {
                 if(is_object($value) || is_array($value)) {
-                    $return = array_merge($return, Object::_createTransformArray($value, is_numeric($key) ? $prefix.'['.$key.']' : $prefix.'.'.$key, $url));
+                    $return = array_merge($return, ObjectEx::_createTransformArray($value, is_numeric($key) ? $prefix.'['.$key.']' : $prefix.'.'.$key, $url));
                 }
                 else {
                     if(is_numeric($key)) {
-                        $return[$prefix.'['.$key.']'] = (Object::_isFilePath($value) ? $url : '').$value;
-                        if(Object::_isFilePath($value)) {
-                            $return[$prefix.'['.$key.'].aslink'] = '<a target="_blank" href="'.(Object::_isFilePath($value) ? $url : '').$value.'">(content)</a>';
-                            $return[$prefix.'['.$key.'].asimage'] = '<img src="'.(Object::_isFilePath($value) ? $url : '').$value.'" />';
-                            $return[$prefix.'['.$key.'].asimagelink'] = '<a target="_blank" href="'.(Object::_isFilePath($value) ? $url : '').$value.'"><img class="snapshot" src="'.(Object::_isFilePath($value) ? $url : '').$value.'" /></a>';
-                            $return[$prefix.'['.$key.'].aslink.inp'] = '<p><a target="_blank" href="'.(Object::_isFilePath($value) ? $url : '').$value.'">(content)</a></p>';
-                            $return[$prefix.'['.$key.'].asimage.inp'] = '<p><img src="'.(Object::_isFilePath($value) ? $url : '').$value.'" /></p>';
-                            $return[$prefix.'['.$key.'].asimagelink.inp'] = '<p><a target="_blank" href="'.(Object::_isFilePath($value) ? $url : '').$value.'"><img class="snapshot" src="'.(Object::_isFilePath($value) ? $url : '').$value.'" /></a></p>';
+                        $return[$prefix.'['.$key.']'] = (ObjectEx::_isFilePath($value) ? $url : '').$value;
+                        if(ObjectEx::_isFilePath($value)) {
+                            $return[$prefix.'['.$key.'].aslink'] = '<a target="_blank" href="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'">(content)</a>';
+                            $return[$prefix.'['.$key.'].asimage'] = '<img src="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'" />';
+                            $return[$prefix.'['.$key.'].asimagelink'] = '<a target="_blank" href="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'"><img class="snapshot" src="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'" /></a>';
+                            $return[$prefix.'['.$key.'].aslink.inp'] = '<p><a target="_blank" href="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'">(content)</a></p>';
+                            $return[$prefix.'['.$key.'].asimage.inp'] = '<p><img src="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'" /></p>';
+                            $return[$prefix.'['.$key.'].asimagelink.inp'] = '<p><a target="_blank" href="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'"><img class="snapshot" src="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'" /></a></p>';
                         }
                     }
                     else {
-                        $return[$prefix.'.'.$key] = (Object::_isFilePath($value) ? $url : '').$value;
-                        if(Object::_isFilePath($value)) {
-                            $return[$prefix.'.'.$key.'.aslink'] = '<a target="_blank" href="'.(Object::_isFilePath($value) ? $url : '').$value.'">(content)</a>';
-                            $return[$prefix.'.'.$key.'.asimage'] = '<img src="'.(Object::_isFilePath($value) ? $url : '').$value.'" />';
-                            $return[$prefix.'.'.$key.'.asimagelink'] = '<a target="_blank" href="'.(Object::_isFilePath($value) ? $url : '').$value.'"><img class="snapshot" src="'.(Object::_isFilePath($value) ? $url : '').$value.'" /></a>';
-                            $return[$prefix.'.'.$key.'.aslink.inp'] = '<p><a target="_blank" href="'.(Object::_isFilePath($value) ? $url : '').$value.'">(content)</a></p>';
-                            $return[$prefix.'.'.$key.'.asimage.inp'] = '<p><img src="'.(Object::_isFilePath($value) ? $url : '').$value.'" /></p>';
-                            $return[$prefix.'.'.$key.'.asimagelink.inp'] = '<p><a target="_blank" href="'.(Object::_isFilePath($value) ? $url : '').$value.'"><img class="snapshot" src="'.(Object::_isFilePath($value) ? $url : '').$value.'" /></a></p>';
+                        $return[$prefix.'.'.$key] = (ObjectEx::_isFilePath($value) ? $url : '').$value;
+                        if(ObjectEx::_isFilePath($value)) {
+                            $return[$prefix.'.'.$key.'.aslink'] = '<a target="_blank" href="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'">(content)</a>';
+                            $return[$prefix.'.'.$key.'.asimage'] = '<img src="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'" />';
+                            $return[$prefix.'.'.$key.'.asimagelink'] = '<a target="_blank" href="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'"><img class="snapshot" src="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'" /></a>';
+                            $return[$prefix.'.'.$key.'.aslink.inp'] = '<p><a target="_blank" href="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'">(content)</a></p>';
+                            $return[$prefix.'.'.$key.'.asimage.inp'] = '<p><img src="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'" /></p>';
+                            $return[$prefix.'.'.$key.'.asimagelink.inp'] = '<p><a target="_blank" href="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'"><img class="snapshot" src="'.(ObjectEx::_isFilePath($value) ? $url : '').$value.'" /></a></p>';
                         }
                     }
                 }

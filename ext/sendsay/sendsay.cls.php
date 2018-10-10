@@ -1,6 +1,6 @@
 <?php
 
-    class SendSayFormField extends Object {
+    class SendSayFormField extends ObjectEx {
         
         public function __construct($id, $params) {
             parent::__construct();
@@ -26,7 +26,7 @@
         
     }
 
-    class SendSayForm extends Object {
+    class SendSayForm extends ObjectEx {
         
         public function __construct($id, $params, $fields) {
             parent::__construct();
@@ -41,7 +41,7 @@
         
     }
 
-    class SendSayMember extends Object {
+    class SendSayMember extends ObjectEx {
         
         private $_forms;
         
@@ -124,7 +124,7 @@
         
     }
     
-    class SendSayMessage extends Object {
+    class SendSayMessage extends ObjectEx {
         
         public function __construct($data) {
             parent::__construct($data);
@@ -165,7 +165,7 @@
         
     }
     
-    class SendSayIssue extends Object {
+    class SendSayIssue extends ObjectEx {
         
         public function __construct($data) {
             parent::__construct($data);

@@ -48,7 +48,7 @@
         
     }
     
-    class RequestDataItem extends Object {
+    class RequestDataItem extends ObjectEx {
         
         public function __construct($name, $data) {
             parent::__construct();

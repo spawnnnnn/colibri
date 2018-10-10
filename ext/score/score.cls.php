@@ -230,8 +230,8 @@
         );
         
         public static function GetGroup($bank, $score, $request = [], $ad_ost = []) {
-            if ( ! ($request instanceof Object)) {
-                $request = new Object($request);
+            if ( ! ($request instanceof ObjectEx)) {
+                $request = new ObjectEx($request);
             }
             
             $group = Score::GROUP_GRAY;
@@ -1011,8 +1011,8 @@
         }
         
         public static function GetScoreInfo($bank, $request = [], $ad_ost = []) {
-            if ( ! ($request instanceof Object)) {
-                $request = new Object($request);
+            if ( ! ($request instanceof ObjectEx)) {
+                $request = new ObjectEx($request);
             }
             
             $prescore = Score::i()->GetPreScore($bank);

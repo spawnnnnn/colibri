@@ -3,7 +3,7 @@
     Core::Using('System');
     Core::Using('System::Data::SqlClient');
     
-    final class MySqlNonQueryInfo extends Object {
+    final class MySqlNonQueryInfo extends ObjectEx {
         
         public function __construct($type, $insertid, $affected, $error, $query) {
             parent::__construct();

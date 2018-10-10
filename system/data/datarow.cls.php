@@ -2,7 +2,7 @@
 
     Core::Using("System");
 
-    class DataRow extends Object {
+    class DataRow extends ObjectEx {
         
         protected $_properties;
         
@@ -46,7 +46,7 @@
         }
             
         public function CopyToObject() {
-            return new Object($this->_data, $this->_prefix);
+            return new ObjectEx($this->_data, $this->_prefix);
         }            
     }
 

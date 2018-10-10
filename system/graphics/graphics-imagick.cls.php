@@ -193,7 +193,7 @@
         
         public static function Info($path) {
             list($width, $height, $type, $attr) = @getimagesize($path);
-            $o = new Object();
+            $o = new ObjectEx();
             $o->size = new Size($width, $height);
             $o->type = $type;
             $o->attr = $attr;

@@ -1,6 +1,6 @@
 <?php
     
-    final class MemcacheNonQueryInfo extends Object {
+    final class MemcacheNonQueryInfo extends ObjectEx {
         
         public function __construct($type, $insertid, $affected) {
             parent::__construct();

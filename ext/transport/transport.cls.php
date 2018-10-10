@@ -33,7 +33,7 @@
         
     }
     
-    class TransportMail extends Object {
+    class TransportMail extends ObjectEx {
         
         public function __construct() {
             $args = func_get_args();
@@ -81,7 +81,7 @@
         }
     }
     
-    class TransportSms extends Object {
+    class TransportSms extends ObjectEx {
         
         public function __construct() {
             $args = func_get_args();

@@ -1,6 +1,6 @@
 <?php
     
-    final class MongoNonQueryInfo extends Object {
+    final class MongoNonQueryInfo extends ObjectEx {
         
         public function __construct($type, $insertid, $affected) {
             parent::__construct();
