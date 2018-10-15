@@ -310,6 +310,8 @@ String.prototype.ellipsis = function(length) {
     cliplen = parseInt((length - 3)/2);
     return str.substr(0, cliplen) + '...' + str.substr(strlen - cliplen - 1, strlen);
 }
+String.prototype.reverse = function() { return this.split("").reverse().join(""); }
+String.prototype.hexToString = function() { var string = ''; for (var i = 0; i < this.length; i += 2) { string += String.fromCharCode(parseInt(this.substr(i, 2), 16)); return string; }};
 
 String.GUID = function() {
    return (Number.Rnd4() + Number.Rnd4() + Number.Rnd4() + Number.Rnd4() + Number.Rnd4() + Number.Rnd4() + Number.Rnd4() + Number.Rnd4());
@@ -956,7 +958,7 @@ function paramsToObject(a) {
     })
     return obj;
 }
-
+                                                            
 function _wait(ec,f){
     try{
         eval('var t='+ec+';');

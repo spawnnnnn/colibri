@@ -38,8 +38,10 @@
         
         public function __get($prop) {
             switch($prop) {
-                case "isValid":
+                case 'isValid':
                     return !Variable::IsEmpty($this->name);
+                case 'binary': 
+                    return FileINfo::ReadAll($this->temporary);
             }
         }
         
