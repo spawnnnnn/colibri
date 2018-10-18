@@ -312,6 +312,7 @@ String.prototype.ellipsis = function(length) {
 }
 String.prototype.reverse = function() { return this.split("").reverse().join(""); }
 String.prototype.hexToString = function() { var string = ''; for (var i = 0; i < this.length; i += 2) { string += String.fromCharCode(parseInt(this.substr(i, 2), 16)); return string; }};
+String.prototype.toObject = function(delimiters) { var ret = {}; if(this == '' || delimiters == undefined || delimiters.length < 2) return {}; var splitted = this.split(delimiters[0]); splitted.forEach(function(currentValue, index, array) { var vals = currentValue.split(delimiters[1]); this[vals[0]] = decodeURI(vals[1]); }, ret); return ret; }
 
 String.GUID = function() {
    return (Number.Rnd4() + Number.Rnd4() + Number.Rnd4() + Number.Rnd4() + Number.Rnd4() + Number.Rnd4() + Number.Rnd4() + Number.Rnd4());
