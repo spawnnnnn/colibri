@@ -43,8 +43,16 @@
             $this->_data = array();
         }
         
-        public function ToArray() {
-            return $this->_data;
+        public function ToArray($noPrefix = false) {
+            if(!$noPrefix)
+                return $this->_data;
+            else {
+                $data = array();
+                foreach($this->_data as $key => $value) {
+                    $data[substr($key, strlen($this->_prefix))] = $value;
+                }
+                return $data;
+            }
         }
         
         public function ToJSON() {

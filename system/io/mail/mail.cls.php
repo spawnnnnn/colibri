@@ -826,7 +826,7 @@
         private function SmtpSend(MailMessage $m, $header, $body) {
             
             $bad_rcpt = array();
-
+            
             if(!$this->SmtpConnect())
                 throw new MailException(MailErrorMessages::SmtpConnectFailed, ExceptionTypes::StopCrytical);
             
