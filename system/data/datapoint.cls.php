@@ -176,7 +176,7 @@
                         $table, $condition, $row
                     ),
                 $this->_connection);
-                
+
             return $cmd->ExecuteNonQuery();
             
         }

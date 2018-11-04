@@ -1,0 +1,10 @@
+<?php
+    
+    if(_DEBUG) {
+        require_once('office.cls.php');
+        require_once('word.cls.php');
+    }
+    
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'ext/office' => array('office.cls.php', 'word.cls.php')));
+?>
