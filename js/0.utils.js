@@ -113,6 +113,25 @@ function isChildOf(el, parent) {
     return parent.has(el).length > 0;
 }
 
+function Base2File(data, filename, mime) {
+    var bstr = atob(data), 
+        n = bstr.length, 
+        u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type:mime});
+}
+
+function RaiseFileDownload(data, filename, mime) {
+    var a = window.document.createElement('a');
+    a.href = window.URL.createObjectURL(Base2File(data, filename, mime), {type: mime});
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
 /* Array prototype expansion */
 //Array.prototype.indexOf = function(value) { for(var i=0; i<this.length; i++) { if(this[i] == value) return i; }; return -1; }
 //Array.prototype.create = function (initialSize) { for (var i = 0; i < initialSize; i++) { this[i] = ""; }; return this; }
@@ -133,6 +152,26 @@ Array.prototype.part = function(e) {
             r.push(o);
     });
     return r;
+}
+Array.prototype.find = function(k,v) {
+    var found = false;
+    this.forEach(function(vv) {
+        if(vv[k] == v) {
+            found = vv;
+            return false;
+        }
+    });
+    return found;
+}
+Array.prototype.findIndex = function(k,v) {
+    var found = -1;
+    this.forEach(function(vv, index) {
+        if(vv[k] == v) {
+            found = index;
+            return false;
+        }
+    });
+    return found;
 }
 
 Object.forEach = function(o, callback) {
@@ -959,6 +998,7 @@ function paramsToObject(a) {
     })
     return obj;
 }
+
                                                             
 function _wait(ec,f){
     try{

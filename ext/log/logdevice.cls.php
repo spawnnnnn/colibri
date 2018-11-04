@@ -54,7 +54,7 @@
         }
         
     }
-    
+        
     /*class DBLog {
         
         static $dataPoint;

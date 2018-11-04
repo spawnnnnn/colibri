@@ -10,6 +10,7 @@
     class ContentProvider {
         
         public static function Parse($string) {
+            if(is_object($string)) return $string;
             if(preg_match('/([^\(]+)\((.+)\)$/', $string, $matches)) {
                 $providerName = $matches[1];
                 $providerData = $matches[2];

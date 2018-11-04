@@ -93,6 +93,9 @@
             
     }
     
+    function nullfunction() {
+    }
+    
     /**
     * Simple debug output method
     */

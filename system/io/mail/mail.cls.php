@@ -654,6 +654,12 @@
                 $sender->Port = $smtp->attributes->port->value;
                 $sender->SMTPAuth = $smtp->attributes->auth->value;
                 $sender->SMTPSecure = $smtp->attributes->secure->value;
+                $sender->SMTPOptions = array (
+                    'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true)
+                );
                 $sender->Timeout = $smtp->attributes->timeout->value;
                 if($sender->SMTPAuth) {
                     $sender->Username = $smtp->attributes->usr->value;
@@ -763,7 +769,7 @@
                 $sendmail = sprintf("%s -oi -f %s -t", escapeshellcmd($this->Sendmail), escapeshellarg($this->Sender));
             else
                 $sendmail = sprintf("%s -oi -t", escapeshellcmd($this->Sendmail));
-            
+                
             // исправить - из MailAddress-а только адрес используется 
             foreach ($m->to as $val) {
                 
