@@ -54,6 +54,46 @@
             header('Location: '.$url);
         }
         
+        public function FileTransfer() {
+            $this->_addHeader('Content-Description', 'File Transfer');
+        }
+        
+        public function ContentDisposition($type, $name) {
+            $this->_addHeader('Content-Disposition', $type.'; filename=\''.$name.'\'');
+        }
+        
+        public function ContentTransferEncoding($type) {
+            $this->_addHeader('Content-Transfer-Encoding', 'binary');
+        }
+        
+        public function Pragma($type) {
+            $this->_addHeader('Pragma', 'binary');
+        }
+        
+        public function ContentLength($length) {
+            $this->_addHeader('Content-Length', $length);
+        }
+        
+        public function CacheControl($type) {
+            $this->_addHeader('Cache-Control', $type);
+        }
+        
+        public function DownloadFile($filename, $filecontent) {
+            $mime = new Mimetype($filename);
+            
+            $this->FileTransfer();
+            $this->ContentDisposition('attachment', $filename);
+            $this->ContentType($mime->data);
+            $this->ContentTransferEncoding('binary');
+            $this->ExpiresAt(0);
+            $this->CacheControl('must-revalidate');
+            $this->Pragma('public');
+            $this->ContentLength(strlen($filecontent));
+            ob_clean();
+            flush();
+            echo $filecontent;
+        }
+        
     }
   
 

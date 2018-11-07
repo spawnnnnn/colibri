@@ -103,8 +103,18 @@
                     return $this->_node;
                 case 'xml':
                     return $this->_document->saveXML($this->_node, LIBXML_NOEMPTYTAG);
+                case 'innerxml':
+                    $data = $this->_document->saveXML($this->_node, LIBXML_NOEMPTYTAG);
+                    $data = preg_replace('/<'.$this->name.'.*>/im', '', $data);
+                    $data = preg_replace('/<\/'.$this->name.'.*>/im', '', $data);
+                    return $data;
                 case 'html':
                     return $this->_document->saveHTML($this->_node);
+                case 'innerhtml':
+                    $data = $this->_document->saveHTML($this->_node);
+                    $data = preg_replace('/<'.$this->name.'.*>/im', '', $data);
+                    $data = preg_replace('/<\/'.$this->name.'.*>/im', '', $data);
+                    return $data;
                 case 'next':
                     return $this->_node->nextSibling ? new XMLNode($this->_node->nextSibling, $this->_document) : null;
                 case 'prev':
