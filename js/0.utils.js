@@ -1013,7 +1013,7 @@ function _wait(ec,f){
         }
     }
     catch(e) {
-        console.log(e); 
+        //console.log(e); 
         setTimeout(function(){
             _wait(ec, f);
         }, 100);
