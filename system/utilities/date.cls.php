@@ -69,7 +69,41 @@
             }
             
             return $age;
-        }        
+        }      
+        
+        public static function TimeToString($number, $range = 60, $postfixes = array("sec.", "min.", "hours")){
+
+            $hours = 0;
+            $mins = 0;
+            $secs = 0;
+
+            if($number >= 60) {
+                $secs = $number % 60; $number = (int)($number / 60);
+                if($number >= 60) {
+                    $mins = $number % 60; $number = (int)($number / 60);
+                    if($number >= 60) {
+                        $hours = $number % 60; $number = (int)($number / 60);
+                    }
+                    else
+                        $hours = $number;
+                }
+                else
+                    $mins = $number;
+            }
+            else {
+                $secs = $number;
+            }
+
+            $txt = "";
+            $txt .= Strings::Expand($hours, 2, "0").":";
+            $txt .= Strings::Expand($mins, 2, "0").":";
+            $txt .= Strings::Expand($secs, 2, "0").":";
+
+            $txt = ltrim($txt, "0");
+            $txt = ltrim($txt, ":");
+
+            return substr($txt, 0, strlen($txt)-1);
+        }  
         
     }
     
