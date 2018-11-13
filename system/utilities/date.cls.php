@@ -1,4 +1,14 @@
 <?php
+
+    function strftimeu($format, $microtime) {
+        if (preg_match('/^[0-9]*\\.([0-9]+)$/', $microtime, $reg)) {
+            $decimal = substr(str_pad($reg[1], 6, "0"), 0, 6);
+        } else {
+            $decimal = "000000";
+        }
+        $format = preg_replace('/(%f)/', $decimal, $format);
+        return strftime($format, $microtime);
+    }
     
     class Date {
         
@@ -17,8 +27,8 @@
             return sprintf("%s %s%04d", date('D, j M Y H:i:s', Variable::IsNull($time) ? time() : $time), $tzs, $tz);
         }
         
-        static function ToDbString($time = null) {
-            return strftime('%Y-%m-%d %H:%M:%S', Variable::IsNull($time) ? time() : (Variable::IsNumeric($time) ? $time : strtotime($time)));
+        static function ToDbString($time = null, $milliseconds = false) {
+            return strftimeu('%Y-%m-%d %H:%M:%S'.($milliseconds ? '.%f' : ''), Variable::IsNull($time) ? time() : (Variable::IsNumeric($time) ? $time : strtotime($time)));
         }
         
         static function ToUnixTime($datestring) {
