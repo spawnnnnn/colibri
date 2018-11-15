@@ -189,9 +189,9 @@ Object.countKeys = function(o) {return Object.keys(o).length;};
 
 /* String prototype expansion */
 String.prototype.stripHtml = function () { return this.replace(/<[^>]+>/gim, "").replace(/<\/[^>]+>/gim, "").replace(/&nbsp;/gim, ""); }
-String.prototype.ltrim = function () { return this.replace(/^\s+/,""); }
-String.prototype.rtrim = function () { return this.replace(/\s+$/,""); }
-String.prototype.trim = function () { return this.replace(/^\s*([\S\s]*?)\s*$/, '$1'); }
+String.prototype.ltrim = function (c) { return this.replace(new RegExp('^' + (c != undefined ? c : '\s') + '+'),""); }
+String.prototype.rtrim = function (c) { return this.replace(new RegExp((c != undefined ? c : '\s') + '+$'),""); }
+String.prototype.trim = function (c) { return this.replace(new RegExp('^' + (c != undefined ? c : '\s') + '*([\S\s]*?)' + (c != undefined ? c : '\s') + '*$'), '$1'); }
 String.prototype.splitA = function (separator) {
     var retArr = new Array();
     var s = this;
@@ -433,10 +433,47 @@ Number.prototype.toMoney = function(digits, force) {
     result = price.substr(0, len - count*3) + result;
     return result + ( dec ? ',' + dec : (force ? ',' + '0'.repeat(digits) : ''));
 }
-Number.prototype.toTimeString = function() {
-    var date = new Date(null);
-    date.setSeconds(this + 0);
-    return date.toISOString().substr(11, 8);
+Number.prototype.toTimeString = function(daySplitter) {
+    var days = 0;
+    var hours = 0;
+    var mins = 0;
+    var secs = 0;
+    var number = this;
+
+    if(number >= 60) {
+        secs = number % 60; number = parseInt(number / 60);
+        if(number >= 60) {
+            mins = number % 60; number = parseInt(number / 60);
+            if(number >= 24) {
+                hours = number % 24; number = parseInt(number / 24);
+                days = number;
+            }
+            else
+                hours = number;
+        }
+        else
+            mins = number;
+    }
+    else {
+        secs = number;
+    }
+
+    txt = "";
+    txt += (days + '').expand("0", 2) + ":";
+    txt += (hours + '').expand("0", 2) + ":";
+    txt += (mins + '').expand("0", 2) + ":";
+    txt += (secs + '').expand("0", 2) + ":";
+
+    txt = txt.ltrim("0");
+    txt = txt.ltrim(":");
+    txt = txt.rtrim(":");
+    
+    if(daySplitter && txt.split(':').length > 3) {
+        // day exists
+        txt = txt.replace(':', daySplitter);
+    }
+
+    return txt;
 }
 Number.prototype.toSizeString = function(postfixes, range) {
     var number = this;
