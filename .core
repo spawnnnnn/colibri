@@ -1,5 +1,5 @@
 <?php
-    
+          
     // initialization
     if(_DEBUG) {
         error_reporting(E_ALL);
@@ -21,32 +21,12 @@
     date_default_timezone_set('UTC');
      
     
-    /*function jsonencode($arr) {
-        //convmap since 0x80 char codes so it takes all multibyte codes (above ASCII 127). So such characters are being "hidden" from normal json_encoding
-        array_walk_recursive($arr, function (&$item, $key) { if (is_string($item)) $item = mb_encode_numericentity($item, array (0x80, 0xffff, 0, 0xffff), 'UTF-8'); });
-        return mb_decode_numericentity(json_encode($arr), array (0x80, 0xffff, 0, 0xffff), 'UTF-8');
-    }
-    
-    function jsondecode($s) {
-        return json_decode($s);
-    }*/
-      
-    /**
-    * system statistics function
-    */
-
     function sysstats($last = null, $data = null) { $time = microtime(true); $memory = memory_get_usage(); $r = array('memory' => $memory.' bytes', 'time' => $time.' ticks'); if(!is_null($last)) { $r['lost time'] = round(($time - $last[count($last) - 1]['time'])*1000, 3).' ms'; $r['lost memory'] = ($memory - $last[count($last) - 1]['memory']).' bytes'; $r['data'] = $data; }; return $r;  }
     
-    /**
-    * first point
-    */
     global $stats;
     $stats = array();
     $stats[] = sysstats(null, 'start');
       
-    /**
-    * Simple debug output method
-    */
     function out() {
         $args = func_get_args();
         $count = count($args);
@@ -93,12 +73,6 @@
             
     }
     
-    function nullfunction() {
-    }
-    
-    /**
-    * Simple debug output method
-    */
     function rout() {
         $args = func_get_args();
         $count = count($args);
@@ -201,18 +175,14 @@
         '.$result.'</div>';
     }
     
-    /**
-    * Exception types
-    */
+    function nullfunction() {}
+    
     class ExceptionTypes {
         const StopMessage          = 0; // message only, continue processing
         const StopContinue         = 1; // message?, likely ok to continue processing
         const StopCrytical         = 2; // message, plus full stop, critical error reached
     }
     
-    /**
-    * System exception
-    */
     class BaseException extends ErrorException {
         
         function __construct($message = '', $code = 0, $severity = 0, $filename = '', $lineno = 0){
@@ -241,9 +211,6 @@
         }
     }
     
-    /**
-    * memcache
-    */
     class Mem {
         
         static $i;
@@ -288,10 +255,7 @@
         }
         
     }
-
-    /**
-    * Core class
-    */
+    
     class Core {
         
         private static $loaded = array();

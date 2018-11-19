@@ -1,8 +1,8 @@
 <?php
 
     Core::Using("System::Utilities");
-    Core::Using("System::Events");
-    
+    Core::Using("System::Events");  
+                                        
     class ObjectEx extends IEventDispatcher {
         
         protected $_original;
@@ -209,5 +209,6 @@
         
             
     }
+    
 
 ?>

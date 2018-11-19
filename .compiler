@@ -43,27 +43,6 @@
             fwrite($handle, $fc, strlen($fc));
         }
         
-        public static function LoadFilesFromDirRec($path) {
-
-            $ret = array();
-            
-            if(!DirectoryInfo::Exists($path))
-                return $ret;
-            
-            $di = new DirectoryFinder();
-            $files = $di->Files($path, '/\.layout/');
-            foreach($files as $file) {
-                $ret[] = realpath($file->path);
-            }
-            
-            $folders = $di->Directories($path);
-            foreach($folders as $folder) {
-                $ret = array_merge($ret, PhpPacker::LoadFilesFromDirRec($path.$folder->name.'/'));
-            }
-            return $ret;
-            
-        }
-        
         private static function loadFilesFromDirSvc($path) {
 
             $ret = array();
@@ -144,6 +123,83 @@
             }
             
             return $retcode;
+        }
+        
+        protected static function compileJs() {
+            $jp = _CACHE.'code/.js.release';
+            
+            $content = '';
+            foreach(Core::$nsScriptFiles as $path => $scripts) {
+                foreach($scripts as $script) {
+                    $script = $path.'/'.$script;
+                    
+                    if(!FileInfo::Exists(_PATH.$script))                
+                        throw new Exception('file not exists '._PATH.$script);
+
+                    $content .= '/* script file begin '.$script.'*/'."\n\n";
+                    //$content .= Javascript::Pack(FileInfo::ReadAll(_PATH.$script))."\n\n";
+                    $content .= FileInfo::ReadAll(_PATH.$script)."\n\n";
+                    $content .= '/* script file end '.$script.'*/'."\n\n";
+                }
+            }
+            
+            if (FileInfo::Exists($jp)) {
+                FileInfo::Delete($jp);
+            }
+            if (!FileInfo::Exists($jp)) {
+                FileInfo::WriteAll($jp, $content, true, 0x777);
+            }
+            
+            system('chmod 777 '.$jp);
+        }
+        
+        protected static function compileCss() {
+            $cssp = _CACHE.'code/.css.release';
+            
+            $content = '';
+            foreach(Core::$nsStyleFiles as $path => $styles) {
+                foreach($styles as $style) {
+                    $style = $path.'/'.$style;
+                    
+                    if(!FileInfo::Exists(_PATH.$style))                
+                        throw new Exception('file not exists '._PATH.$style);
+
+                    $content .= '/* css file begin '.$style.'*/'."\n\n";
+                    //$content .= Javascript::Pack(FileInfo::ReadAll(_PATH.$script))."\n\n";
+                    $content .= FileInfo::ReadAll(_PATH.$style)."\n\n";
+                    $content .= '/* css file end '.$style.'*/'."\n\n";
+                }
+            }
+            
+            if (FileInfo::Exists($cssp))
+                FileInfo::Delete($cssp);
+            
+            if (!FileInfo::Exists($cssp)) {
+                FileInfo::WriteAll($cssp, $content, true, 0x777);
+            }
+            
+            system('chmod 777 '.$cssp);
+        }
+        
+        public static function LoadFilesFromDirRec($path) {
+
+            $ret = array();
+            
+            if(!DirectoryInfo::Exists($path))
+                return $ret;
+            
+            $di = new DirectoryFinder();
+            $files = $di->Files($path, '/\.layout/');
+            foreach($files as $file) {
+                $ret[] = realpath($file->path);
+            }
+            
+            $folders = $di->Directories($path);
+            foreach($folders as $folder) {
+                $ret = array_merge($ret, PhpPacker::LoadFilesFromDirRec($path.$folder->name.'/'));
+            }
+            return $ret;
+            
         }
         
         public static function RecompileCore($log = false) {
@@ -321,62 +377,6 @@
             
         }  
 
-        protected static function compileJs() {
-            $jp = _CACHE.'code/.js.release';
-            
-            $content = '';
-            foreach(Core::$nsScriptFiles as $path => $scripts) {
-                foreach($scripts as $script) {
-                    $script = $path.'/'.$script;
-                    
-                    if(!FileInfo::Exists(_PATH.$script))                
-                        throw new Exception('file not exists '._PATH.$script);
-
-                    $content .= '/* script file begin '.$script.'*/'."\n\n";
-                    //$content .= Javascript::Pack(FileInfo::ReadAll(_PATH.$script))."\n\n";
-                    $content .= FileInfo::ReadAll(_PATH.$script)."\n\n";
-                    $content .= '/* script file end '.$script.'*/'."\n\n";
-                }
-            }
-            
-            if (FileInfo::Exists($jp)) {
-                FileInfo::Delete($jp);
-            }
-            if (!FileInfo::Exists($jp)) {
-                FileInfo::WriteAll($jp, $content, true, 0x777);
-            }
-            
-            system('chmod 777 '.$jp);
-        }
-        
-        protected static function compileCss() {
-            $cssp = _CACHE.'code/.css.release';
-            
-            $content = '';
-            foreach(Core::$nsStyleFiles as $path => $styles) {
-                foreach($styles as $style) {
-                    $style = $path.'/'.$style;
-                    
-                    if(!FileInfo::Exists(_PATH.$style))                
-                        throw new Exception('file not exists '._PATH.$style);
-
-                    $content .= '/* css file begin '.$style.'*/'."\n\n";
-                    //$content .= Javascript::Pack(FileInfo::ReadAll(_PATH.$script))."\n\n";
-                    $content .= FileInfo::ReadAll(_PATH.$style)."\n\n";
-                    $content .= '/* css file end '.$style.'*/'."\n\n";
-                }
-            }
-            
-            if (FileInfo::Exists($cssp))
-                FileInfo::Delete($cssp);
-            
-            if (!FileInfo::Exists($cssp)) {
-                FileInfo::WriteAll($cssp, $content, true, 0x777);
-            }
-            
-            system('chmod 777 '.$cssp);
-        }
-        
           
     }
 
