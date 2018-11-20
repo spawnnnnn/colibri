@@ -1,5 +1,7 @@
 <?php
     
+    Core::Using('System::Ajax');
+
     class ModuleConfig {
         
         private $_x;
@@ -39,6 +41,48 @@
             }
             return $ret;
         }
+        
+    }
+    
+    class ModuleAjaxHandler extends AjaxHandler {
+        
+        public function GetConfig($data) {
+            
+            $moduleAjaxHandlerName = str_replace('AjaxHandler', '', ClassKit::GetName($this));
+            
+            $configArray = $moduleAjaxHandlerName::$i->Config()->ToArray();
+            
+            $res = new ObjectEx();
+            $res->error = false;
+            $res->message = 'ok';
+            $res->config = $configArray;
+            return $res->data;
+        }
+        
+        public function SaveConfig($data) {
+            
+            $moduleAjaxHandlerName = str_replace('AjaxHandler', '', ClassKit::GetName($this));
+            
+            $oldConfig = clone $moduleAjaxHandlerName::$i->Config();
+            
+            $config = $data->config;
+            foreach($config as $key => $value) {
+                $moduleAjaxHandlerName::$i->Config()->$key = $value;
+            }
+            
+            ModuleManager::$i->Save();
+            
+            $configArray = $moduleAjaxHandlerName::$i->Config()->ToArray();
+            
+            $res = new ObjectEx();
+            $res->error = false;
+            $res->message = 'ok';
+            $res->config = $configArray;
+            return $res->data;
+            
+        }
+        
+        
         
     }
     

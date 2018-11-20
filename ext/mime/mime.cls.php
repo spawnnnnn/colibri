@@ -190,7 +190,8 @@
             "xwd" =>  "image/x-xwindowdump",
             "z" =>  "application/x-compress",
             "zip" =>  "application/zip", 
-            "swf" => "application/x-shockwave-flash"
+            "swf" => "application/x-shockwave-flash",
+            "svg" => "image/svg+xml",
         );
         
         private static $browserCapableTypes = array(

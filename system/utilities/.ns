@@ -9,10 +9,11 @@
         require_once('javascript.cls.php');
         require_once('html.cls.php');
         require_once('css.cls.php');
+        require_once('filestreaming.cls.php');
     }
     
     // insert files into files array in Core object
-    Core::$files = array_merge(Core::$files, array(_CORE.'system/utilities' => array('numeric.cls.php', 'strings.cls.php', 'randomization.cls.php', 'var.cls.php', 'date.cls.php', 'javascript.cls.php', 'html.cls.php', 'css.cls.php')));
+    Core::$files = array_merge(Core::$files, array(_CORE.'system/utilities' => array('numeric.cls.php', 'filestreaming.cls.php', 'strings.cls.php', 'randomization.cls.php', 'var.cls.php', 'date.cls.php', 'javascript.cls.php', 'html.cls.php', 'css.cls.php')));
     
   
 ?>

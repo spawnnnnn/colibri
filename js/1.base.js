@@ -193,31 +193,3 @@ Base = Base.extend({
 });
 
 
-Application = Base.extend({
-    
-    isDebug: true,
-    
-    constructor: function() {
-        Application.instance = this;
-    }, 
-    
-    init: function() {
-
-        /* тут инициализация для конкретно нашего Application-а */ 
-        //out('initializing ...');
-        
-    }
-    
-
-}, {
-    instance: null
-});
-
-Application.Services = {};
-
-// main application object
-// holds global events also
-app = new Application();
-
-/* старт javascript программы */
-(function() { app.init(); })();
