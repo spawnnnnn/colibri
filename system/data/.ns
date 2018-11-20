@@ -6,10 +6,16 @@
         require_once('datatable.cls.php');
         require_once('datarow.cls.php');
         require_once('datapoint.cls.php');
+        require_once('querydef.cls.php');
     }
     
     // insert files into files array in Core object
-    Core::$files = array_merge(Core::$files, array(_CORE.'system/data' => array('datatable.cls.php', 'datarow.cls.php', 'datapoint.cls.php')));
+    Core::$files = array_merge(Core::$files, array(_CORE.'system/data' => array(
+        'datatable.cls.php', 
+        'datarow.cls.php', 
+        'datapoint.cls.php',
+        'querydef.cls.php',
+    )));
     
 
 ?>
