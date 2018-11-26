@@ -11,7 +11,7 @@
             FileInfo::WriteAll($source, $xmlRoot);
         }
         
-        public static function Load($source, $isFile = true) {
+        public static function Load(string $source, bool $isFile = true) : XMLNode {
             if(FileInfo::Exists($source)) {
                 $content = FileInfo::ReadAll($source);
                 try {

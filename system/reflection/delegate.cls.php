@@ -1,22 +1,53 @@
 <?php
-    
+
+    /**
+     * Делегат обьекта/класса
+     * нужен для передачи колбэков в другие процессы
+     */    
     class Delegate {
         
+        /**
+         * Объект для запуска, либо название объекта
+         *
+         * @var mixed
+         */
         protected $_object;
+
+        /**
+         * Метод для запуска
+         *
+         * @var string
+         */
         protected $_method;
         
-        public function __construct($object, $method) {
+        /**
+         * Конструктор
+         *
+         * @param mixed $object
+         * @param string $method
+         */
+        public function __construct($object, string $method) {
             $this->_object = $object;
             $this->_method = $method;
         }
         
-        public static function CreateByDelegateInfo($info) {
+        /**
+         * Создает Delegate по строке вида delega(object,method(...params))
+         *
+         * @param string $info
+         * @return Delegate
+         */
+        public static function CreateByDelegateInfo(string $info) : Delegate {
             return ContentProvider::Parse($info);
         }
         
-        public function Invoke() {
+        /**
+         * Вызывает метод с параметрами
+         *
+         * @return mixed ...$args
+         */
+        public function Invoke(...$args) {
             $handler = $this->_method;
-            $args = func_get_args();
             
             // get the needle object
             if(!is_null($this->_object) && !is_object($this->_object)) {

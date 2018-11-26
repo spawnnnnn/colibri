@@ -1,0 +1,12 @@
+<?php
+    
+    if(_DEBUG) {
+        require_once('process.cls.php');
+        require_once('worker.cls.php');
+        require_once('manager.cls.php');
+        require_once('ajax.cls.php');
+    }
+    // insert files into files array in Core object
+    Core::$files = array_merge(Core::$files, array(_CORE.'system/threading' => array('process.cls.php', 'worker.cls.php', 'manager.cls.php', 'ajax.cls.php')));
+    
+?>

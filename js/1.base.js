@@ -112,6 +112,17 @@ Base = Base.extend({
     constructor: function() {
         this.extend(arguments[0]);
     },
+
+    _findHandler: function(eventName, handler) {
+        var foundIndex = -1;
+        this.handlers[eventName].forEach(function(h, index) {
+            if(h.toString() == handler.toString()) {
+                foundIndex = index;
+                return false;
+            }
+        });
+        return foundIndex;
+    },
     
     addHandler: function(eventName, handler) {
         
@@ -128,9 +139,9 @@ Base = Base.extend({
                                   
             if(!this.handlers[eventName])
                 this.handlers[eventName] = [];
-                                        
-            this.handlers[eventName][this.handlers[eventName].length] = handler;
-                                                                                                             
+                
+            // if(this._findHandler(eventName, handler) === -1)
+                this.handlers[eventName][this.handlers[eventName].length] = handler;                                                                                            
             //out('EVENTS', 'event handler added', this, eventName);
             
         }    

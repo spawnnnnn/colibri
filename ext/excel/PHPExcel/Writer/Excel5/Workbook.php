@@ -451,7 +451,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 		$part3 .= $this->_writeRecalcId();
 
 		$part3 .= $this->_writeSupbookInternal();
-		/* TODO: store external SUPBOOK records and XCT and CRN records
+		/* : store external SUPBOOK records and XCT and CRN records
 		in case of external references for BIFF8 */
 		$part3 .= $this->_writeExternsheetBiff8();
 		$part3 .= $this->_writeAllDefinedNamesBiff8();

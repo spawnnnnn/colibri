@@ -78,7 +78,6 @@
         }        
         
         public function __get($property) {
-            // todo: надо понять правильно ли сделано - иначе будут глюки
             $val = parent::__get($property);
             if($val && !$this->_magicquotes)
                 $val = $this->_stripSlashes($val);

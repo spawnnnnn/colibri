@@ -38,7 +38,7 @@
         }
         
         public function Dispose(){
-            unset($this);
+            return;
         }
         
         protected function getProperty($key){

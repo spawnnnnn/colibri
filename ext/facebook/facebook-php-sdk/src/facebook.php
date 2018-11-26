@@ -721,7 +721,7 @@ class Facebook
    * Returns something that looks like our JS session object from the
    * signed token's data
    *
-   * TODO: Nuke this once the login flow uses OAuth2
+   * : Nuke this once the login flow uses OAuth2
    *
    * @param Array the output of getSignedRequest
    * @return Array Something that will work as a session

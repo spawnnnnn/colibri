@@ -99,7 +99,6 @@ class HTML {
             , $html);
        
         // trim each line.
-        // todo take into account attribute values that span multiple lines.
         $html = preg_replace('/^\\s+|\\s+$/m', '', $html);
        
         // remove ws around block/undisplayed elements

@@ -708,7 +708,7 @@ class Json
     }
 
     /**
-     * @todo 
+     * @ 
      */
     static function isError($data, $code = null) {
         if (is_object($data) && (get_class($data) == 'jsonerror' ||

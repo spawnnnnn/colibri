@@ -16,7 +16,7 @@
         }
         
         public function ToString() {
-            // ! TODO: доделать Join и groupby
+            // ! TODO: доделать Join
             if(!$this->table)
                 return '';
             return 'select '.(!$this->select ? '*' : $this->select).' from '.$this->table.($this->filter ? ' where '.$this->filter : '').($this->groupBy ? ' group by '.$this->groupBy : '').($this->order ? ' order by '.$this->order : '');

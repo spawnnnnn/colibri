@@ -182,14 +182,14 @@
             $koef = 0;
             trY {
                 $discount = $this->_getAvailRenesDiscount($score);
-                // TODO DELETE
+                //  DELETE
                 //$discount = 10;
-                // TODO DELETE
-                // TODO DELETE
+                //  DELETE
+                //  DELETE
                 //$rows['renes::confident'] = $rows['renes::packet_1'];
                 //$rows['renes::confident']->total = 47000;
                 //unset($rows['renes::packet_1']);
-                // TODO DELETE
+                //  DELETE
                 
                 $scheme = $this->_getRenesScheme($rows);
                 

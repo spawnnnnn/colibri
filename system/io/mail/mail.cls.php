@@ -1164,7 +1164,7 @@
             if($body != '' && $this->certificate) {
                 try {
                     $file = tempnam('', 'mail');
-                    file_put_contents($file, $body); //TODO check this worked
+                    file_put_contents($file, $body);
                     $signed = tempnam("", "signed");
                     if (@openssl_pkcs7_sign($file, $signed, "file://".$this->certificate->file, array("file://".$this->certificate->key, $this->certificate->pass), null)) {
                         @unlink($file);

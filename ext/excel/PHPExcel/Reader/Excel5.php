@@ -1085,7 +1085,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 					}
 				} else {
 					//	Named Value
-					//	TODO Provide support for named values
+					//	 Provide support for named values
 				}
 			}
 		}
@@ -4111,7 +4111,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 			$xfIndex = self::_GetInt2d($recordData, 4);
 
 			// add cell value
-			// todo: what if string is very long? continue record
+			// : what if string is very long? continue record
 			if ($this->_version == self::XLS_BIFF8) {
 				$string = self::_readUnicodeStringLong(substr($recordData, 6));
 				$value = $string['value'];
@@ -4623,7 +4623,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 
 			case 'UNC':
 				// section 5.58.4: Hyperlink to a File with UNC (Universal Naming Convention) Path
-				// todo: implement
+				// : implement
 				return;
 
 			case 'workbook':
@@ -4859,7 +4859,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 					break;
 
 				case 0x28:
-					// TODO: Investigate structure for .xls SHEETLAYOUT record as saved by MS Office Excel 2007
+					// : Investigate structure for .xls SHEETLAYOUT record as saved by MS Office Excel 2007
 					return;
 					break;
 			}
@@ -6160,7 +6160,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 	 */
 	private function _readBIFF8CellRangeAddress($subData)
 	{
-		// todo: if cell range is just a single cell, should this funciton
+		// : if cell range is just a single cell, should this funciton
 		// not just return e.g. 'A1' and not 'A1:A1' ?
 
 		// offset: 0; size: 2; index to first row (0... 65535) (or offset (-32768... 32767))
@@ -6217,7 +6217,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 		list($baseCol, $baseRow) = PHPExcel_Cell::coordinateFromString($baseCell);
 		$baseCol = PHPExcel_Cell::columnIndexFromString($baseCol) - 1;
 
-		// TODO: if cell range is just a single cell, should this funciton
+		// : if cell range is just a single cell, should this funciton
 		// not just return e.g. 'A1' and not 'A1:A1' ?
 
 		// offset: 0; size: 2; first row
@@ -6380,7 +6380,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 					$sheetRange = str_replace("'", "''", $sheetRange);
 
 					// if there are special characters, we need to enclose the range in single-quotes
-					// todo: check if we have identified the whole set of special characters
+					// : check if we have identified the whole set of special characters
 					// it seems that the following characters are not accepted for sheet names
 					// and we may assume that they are not present: []*/:\?
 					if (preg_match("/[ !\"@#£$%&{()}<>=+'|^,;-]/", $sheetRange)) {
@@ -6391,7 +6391,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 					break;
 
 				default:
-					// TODO: external sheet support
+					// : external sheet support
 					throw new PHPExcel_Reader_Exception('Excel5 reader only supports internal sheets in fomulas');
 					break;
 			}

@@ -3,17 +3,44 @@
     // need a system::collection namespace
     Core::Using("System::Collections");
 
+    /**
+     * Класс работы с XML объектом
+     */
     class XMLNode {
         
+        /**
+         * Raw обьект документа
+         *
+         * @var DOMDocument
+         */
         private $_document;
+
+        /**
+         * Raw обьект элемента
+         *
+         * @var DOMNode
+         */
         private $_node;
         
+        /**
+         * Конструктор
+         *
+         * @param DOMNode $node
+         * @param DOMDocument $dom
+         */
         public function __construct(DOMNode $node, DOMDocument $dom = null) {
             $this->_node = $node;
             $this->_document = $dom;
         }
         
-        public static function Load($xmlFile, $isFile = true) {
+        /**
+         * Создает обьект XMLNode из строки или файла
+         *
+         * @param string $xmlFile
+         * @param boolean $isFile
+         * @return XMLNode
+         */
+        public static function Load(string $xmlFile, bool $isFile = true) : XMLNode {
             $dom = new DOMDocument(); 
             if(!$isFile)
                 $dom->loadXML($xmlFile);
@@ -27,13 +54,27 @@
             return new XMLNode($dom->documentElement, $dom);
         }
         
-        public static function LoadNode($xmlString, $encoding = 'utf-8') {
+        /**
+         *  Создает XMLNode из неполного документа
+         *
+         * @param string $xmlString
+         * @param string $encoding
+         * @return XMLNode
+         */
+        public static function LoadNode(string $xmlString, string $encoding = 'utf-8') : XMLNode {
             $dom = new DOMDocument('1.0', $encoding);
             $dom->loadXML('<'.'?xml version="1.0" encoding="'.$encoding.'"?'.'>'.$xmlString);
             return new XMLNode($dom->documentElement, $dom);
         }        
         
-        public static function LoadHTML($htmlFile, $isFile = true, $encoding = 'utf-8') {
+        /**
+         * Создает обьект XMLNode из строки или файла html
+         *
+         * @param string $htmlFile
+         * @param boolean $isFile
+         * @return XMLNode
+         */
+        public static function LoadHTML(string $htmlFile, bool $isFile = true, string $encoding = 'utf-8') : XMLNode {
             libxml_use_internal_errors(true);
             
             $dom = new DOMDocument('1.0', $encoding);
@@ -49,21 +90,39 @@
             return new XMLNode($dom->documentElement, $dom);
         }
         
-        public function Save($filename = "") {
+        /**
+         * Сохраняет в файл или возвращает строку XML хранящуюся в обьекте 
+         *
+         * @param string $filename
+         * @return mixed
+         */
+        public function Save(string $filename = "") {
             if(!Variable::IsEmpty($filename))
                 $this->_document->save($filename);
             else
                 return $this->_document->saveXML(null, LIBXML_NOEMPTYTAG);
         }
         
-        public function SaveHTML($filename = "") {
+        /**
+         * Сохраняет в файл или возвращает строку HTML хранящуюся в обьекте 
+         *
+         * @param string $filename
+         * @return mixed
+         */
+        public function SaveHTML(string $filename = "") {
             if(!Variable::IsEmpty($filename))
                 $this->_document->saveHTMLFile($filename);
             else
                 return $this->_document->saveHTML();
         }
         
-        public function __get($property) {
+        /**
+         * Getter
+         *
+         * @param string $property
+         * @return mixed
+         */
+        public function __get(string $property) {
             switch(strtolower($property)) {
                 case 'type':
                     return $this->_node->nodeType;
@@ -135,7 +194,14 @@
             return null;
         }
         
-        public function __set($property, $value) {
+        /**
+         * Setter
+         *
+         * @param string $property
+         * @param string @value
+         * @return void
+         */
+        public function __set(string $property, string $value) : void {
             switch(strtolower($property)) {
                 case 'value': {
                     $this->_node->nodeValue = $value;
@@ -148,7 +214,13 @@
             }
         }
         
-        public function Item($name) {
+        /**
+         * Возвращает обьект XMLNode соответстующий дочернему обьекту с именем $name
+         *
+         * @param string $name
+         * @return XMLNode или null
+         */
+        public function Item(string $name) {
             $list = $this->Items($name);
             if($list->count > 0)
                 return $list->first;
@@ -156,11 +228,23 @@
                 return null;
         }
         
-        public function Items($name) {
+        /**
+         * Возвращает XMLNodeList с названием тэга $name 
+         *
+         * @param string $name
+         * @return XMLNodeList
+         */
+        public function Items(string $name) : XMLNodeList {
             return $this->Query('./child::'.$name);
         }
         
-        public function IsChildOf(XMLNode $node) {
+        /**
+         * Проверяет является ли заданный узел дочерним к текущему
+         *
+         * @param XMLNode $node
+         * @return boolean
+         */
+        public function IsChildOf(XMLNode $node) : bool {
             $p = $this;
             while($p->parent) {
                 if($p->raw === $node->raw)
@@ -170,7 +254,13 @@
             return false;
         }
         
-        public function Append($nodes) {
+        /**
+         * Добавляет заданные узлы/узел в конец
+         *
+         * @param mixed $nodes
+         * @return void
+         */
+        public function Append($nodes) : void {
             if($nodes instanceof XMLNode) {
                 if($nodes->name == 'html') {
                     $nodes = $nodes->body;
@@ -196,7 +286,14 @@
             }
         }
         
-        public function Insert($nodes, XMLNode $relation) {
+        /**
+         * Добавляет заданные узлы/узел в перед узлом $relation
+         *
+         * @param mixed $nodes
+         * @param XMLNode $relation
+         * @return void
+         */
+        public function Insert($nodes, XMLNode $relation) : void {
             if($nodes instanceof XMLNode) {
                 $this->_node->insertBefore($this->_document->importNode($nodes->raw, true), $relation->raw);
             }
@@ -207,28 +304,55 @@
             }
         }
         
+        /**
+         * Удаляет текущий узел
+         *
+         * @return void
+         */
         public function Remove() {
             $this->_node->parentNode->removeChild($this->_node);
         }
         
-        public function ReplaceTo($node) {
+        /**
+         * Заменяет текущий узел на заданный
+         *
+         * @param XMLNode $node
+         * @return void
+         */
+        public function ReplaceTo(XMLNode $node) {
             $_node = $node->raw;
             $_node = $this->_document->importNode($_node, true);
             $this->_node->parentNode->replaceChild($_node, $this->_node);
             $this->_node = $_node;
         }
         
-        public function getElementsByName($name) {
+        /**
+         * Возвращает элементы с атрибутом @name содержащим указанное имя
+         *
+         * @param string $name
+         * @return XMLNamedNodeList
+         */
+        public function getElementsByName(string $name) : XMLNamedNodeList {
             return $this->Query('./child::*[@name="'.$name.'"]', true);
         }
 
-        public function Query($query, $returnAsNamedMap = false) { // , $ns = '', $nsUri = ''
+        /**
+         * Выполняет XPath запрос 
+         *
+         * @param string $query строка XPath
+         * @param bool $returnAsNamedMap вернуть в виде именованого обьекта, в такон обьекте не может быть 2 тэгов с одним именем
+         * @return XMLNodeList/XMLNamedNodeList
+         */
+        public function Query(string $query, bool $returnAsNamedMap = false) { 
             $xq = new XMLQuery($this, $returnAsNamedMap);
             return $xq->query($query);
         }  
         
     }
     
+    /**
+     * Класс итератора для XMLNodeList
+     */
     class XMLNodeListIterator implements Iterator {
         
         private $_class;
@@ -268,15 +392,34 @@
 
     } 
     
+    /**
+     * Класс для работы с атрибутами
+     */
     class XMLAttribute {
         
+        /**
+         * Обьект содержающий DOMNode атрибута
+         *
+         * @var DOMNode
+         */
         private $_data;
         
+        /**
+         * Конструктор
+         *
+         * @param DOMNode $data
+         */
         public function __construct(DOMNode $data) {
             $this->_data = $data;
         }
         
-        public function __get($property) {
+        /**
+         * Getter
+         *
+         * @param string $property
+         * @return mixed
+         */
+        public function __get(string $property) {
             switch(strtolower($property)) {
                 case 'value':
                     return $this->_data->nodeValue;
@@ -288,19 +431,35 @@
             return null;
         }
         
-        public function __set($property, $value) { 
+        /**
+         * Setter
+         *
+         * @param string $property
+         * @param string $value
+         * @return void
+         */
+        public function __set(string $property, string $value) : void { 
             switch(strtolower($property)) {
                 case 'value':
                     $this->_data->nodeValue = $value;
             }
         }
         
+        /**
+         * Удаляет атрибут
+         *
+         * @return void
+         */
         public function Remove() {
             $this->_data->parentNode->removeAttributeNode($this->_data);
         }
         
     }
     
+    // TODO продолжить документировать тут
+    /**
+     * Список атрибутов
+     */
     class XMLNodeAttributeList implements IteratorAggregate {
         
         private $_document;

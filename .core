@@ -21,7 +21,17 @@
     date_default_timezone_set('UTC');
      
     
-    function sysstats($last = null, $data = null) { $time = microtime(true); $memory = memory_get_usage(); $r = array('memory' => $memory.' bytes', 'time' => $time.' ticks'); if(!is_null($last)) { $r['lost time'] = round(($time - $last[count($last) - 1]['time'])*1000, 3).' ms'; $r['lost memory'] = ($memory - $last[count($last) - 1]['memory']).' bytes'; $r['data'] = $data; }; return $r;  }
+    function sysstats($last = null, $data = null) { 
+        $time = microtime(true); 
+        $memory = memory_get_usage(); 
+        $r = array('memory' => $memory.' bytes', 'time' => $time.' ticks'); 
+        if(!is_null($last)) { 
+            $r['lost time'] = round(($time - str_replace(' ticks', '', $last[count($last) - 1]['time']))*1000, 3).' ms'; 
+            $r['lost memory'] = ($memory - str_replace(' bytes', '', $last[count($last) - 1]['memory'])).' bytes'; 
+            $r['data'] = $data; 
+        }; 
+        return $r;  
+    }
     
     global $stats;
     $stats = array();

@@ -1,56 +1,120 @@
 <?php
     
+    /**
+     * Класс обертка для работы с наименованиями классов и методов
+     */
     class ClassKit {
         
-        static function Exists($class) {
+        /**
+         * Проверяет есть ли класс с переданным наименованием
+         *
+         * @param string $class название класса, которое нужно проверить
+         * @return boolean
+         */
+        static function Exists(string $class) : bool {
             return class_exists($class);
         }
         
-        static function HasMethod($class, $method) {
+        /**
+         * Проверяет есть ли метод $method в объекте $class
+         *
+         * @param mixed $class объект для проверки
+         * @param string $method метод для проверки
+         * @return boolean
+         */
+        static function HasMethod($class, string $method) : bool {
             return method_exists($class, $method);
         }
         
-        static function HasProperty($class, $method) {
-            return property_exists($class, $method);
+        /**
+         * Проверяет есть ли свойство $property в объекте $class
+         *
+         * @param mixed $class объект для проверки
+         * @param string $property свойство для проверки
+         * @return boolean
+         */
+        static function HasProperty($class, string $property) : bool {
+            return property_exists($class, $property);
         }
 
-        static function GetProperties($object) {
+        /**
+         * Возвращает свойства объекта в виде массива
+         *
+         * @param mixed $object объект из которого нужно получить свойства
+         * @return array
+         */
+        static function GetProperties($object) : array {
             return get_object_vars($object);
         }    
         
-        static function GetName($object) {
+        /**
+         * Возвращает наименование класса объекта
+         *
+         * @param mixed $object
+         * @return string
+         */
+        static function GetName($object) : string {
             return get_class($object);
         }        
         
-        static function InvokeMethod($object, $method, $args) {
+        /**
+         * Вызывает метод объекта по текстовому названию
+         *
+         * @param mixed $object
+         * @param string $method
+         * @param array $args
+         * @return mixed
+         */
+        static function InvokeMethod($object, string $method, array $args) {
             return call_user_func_array(array($object, $method), $args);
         }
         
     }
     
+    /**
+     * Класс обертка для работы в названиями функций
+     */
     class CodeKit {
 
-        static function Exists($func) {
+        /**
+         * Проверяет есть ли функция с заданным названием
+         *
+         * @param string $func
+         * @return boolean
+         */
+        static function Exists(string $func) : bool {
             return function_exists($func);
         }
         
-        static function Invoke($func, $args) {
+        /**
+         * Вызывает функцию по названию
+         *
+         * @param string $func
+         * @param array $args
+         * @return void
+         */
+        static function Invoke(string $func, array $args) {
             return call_user_func_array($func, $args);
         }
         
     }
     
+    /**
+     * Класс обертка для работы с кодом
+     */
     class CodeModel {
     
-        public static function CreateObject() {
-            
-            $args = func_get_args();
-            
-            $className = $args[0];
+        /**
+         * Создает объект по заданному названию и параметрам
+         *
+         * @param mixed ...$args
+         * @return mixed
+         */
+        public static function CreateObject(string $className, ...$args) {
             
             $eval = '$o = new '.$className.'(';
-            for($i=1; $i<count($args); $i++) {
-                $eval .= ($i != 1 ? ',' : '').'$args['.$i.']';
+            for($i=0; $i<count($args); $i++) {
+                $eval .= ($i != 0 ? ',' : '').'$args['.$i.']';
             }        
             $eval .= ');';
             
@@ -58,14 +122,18 @@
             return $o;
         }
         
-        public static function CreateSingletonObject() {
-            $args = func_get_args();
-            
-            $className = $args[0];
-            
+        /**
+         * Создает singleton объект по заданному названию и параметрам
+         *
+         * @param string $className
+         * @param mixed ...$args
+         * @return mixed
+         */
+        public static function CreateSingletonObject(string $className, ...$args) {
+
             $eval = 'if(!'.$className.'::$i) { '.$className.'::$i = new '.$className.'(';
-            for($i=1; $i<count($args); $i++) {
-                $eval .= ($i != 1 ? ',' : '').'$args['.$i.']';
+            for($i=0; $i<count($args); $i++) {
+                $eval .= ($i != 0 ? ',' : '').'$args['.$i.']';
             }        
             $eval .= '); } ';
             eval($eval);
@@ -76,11 +144,18 @@
             return $o;
         }
         
-        public static function CallStaticMethod($className, $methodName) {
+        /**
+         * Вызывает статический метод $methodName класса $className
+         *
+         * @param string $className
+         * @param string $methodName
+         * @return mixed
+         */
+        public static function CallStaticMethod(string $className, string $methodName, ...$args) {
             
             $eval = '$result = '.$className.'::'.$methodName.'(';
-            for($i=2; $i<count($args); $i++) {
-                $eval .= ($i != 1 ? ',' : '').'$args['.$i.']';
+            for($i=0; $i<count($args); $i++) {
+                $eval .= ($i != 0 ? ',' : '').'$args['.$i.']';
             }        
             $eval .= ');';
 
@@ -88,60 +163,7 @@
             return $result;
         }
         
-        function CreateComponentList($code, $returnToVarName = "\$ret", $contextFieldName = "\$context") {
-            // create the component list from a template html text    
-            $retNameStart = (is_null($returnToVarName) ? $contextFieldName."->Out(" : $returnToVarName." .= ");
-            $retNameEnd = (is_null($returnToVarName) ? ");" : ";");
-                                                               
-            $code = str_replace("&lt;?", "<"."?", $code);
-            $code = str_replace("<"."?php", "<"."?", $code); 
-            $code = str_replace("?&gt;", "?".">", $code);
-            
-            $retcode = "";
-            $blocks = array();
-            $lastpos = 0;
-            $i = 1;
-            $splitter = "<?";
-            while(($ipos = strpos($code, $splitter)) !== false) {
-                if($splitter == "?>")
-                    $blocks[] = "<?".substr($code, 0, $ipos)."?>";
-                else
-                    $blocks[] = substr($code, 0, $ipos);
-                $code = substr($code, $ipos + 2);
-                $splitter =    ($splitter == "<?" ? "?>" : "<?");
-            }
-            $blocks[] = substr($code, $ipos);
-
-            $blocks1 = array();
-            foreach($blocks as $block) {
-                if($block == "")
-                    continue;
-                    
-                if(substr(trim($block), 0, 3) == "<?=") {
-                    $cc = trim(substr(trim($block), 3, strlen(trim($block)) - 5));
-                    if(substr($cc, strlen($cc)-1, 1) == ";")
-                        $cc = substr($cc, 0, strlen($cc)-1);
-                        
-                    $blocks1[] = $retNameStart.$cc.$retNameEnd;
-                }
-                else if(substr(trim($block), 0, 2) == "<?")
-                    $blocks1[] = substr(trim($block), 2, strlen(trim($block)) - 4);
-                else {
-                    $block = str_replace("\\","\\\\", $block);
-                    $block = str_replace("\"","\\\"", $block);
-                    $block = str_replace("\$","\\\$", $block);
-                    $blocks1[] = $retNameStart."\"".$block."\"".$retNameEnd;
-                }
-            }
-
-            $retcode = "";
-            foreach($blocks1 as $block) {
-                if($block != "")
-                    $retcode .= $block;
-            }
-
-            return $retcode;
-        }
+        
         
         
     }

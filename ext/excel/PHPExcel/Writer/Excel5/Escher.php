@@ -191,13 +191,13 @@ class PHPExcel_Writer_Excel5_Escher
 			$btMacOS = $this->_object->getBlipType();
 			$data .= pack('CC', $btWin32, $btMacOS);
 
-			$rgbUid = pack('VVVV', 0,0,0,0); // todo
+			$rgbUid = pack('VVVV', 0,0,0,0); // 
 			$data .= $rgbUid;
 
 			$tag = 0;
 			$size = strlen($innerData);
 			$cRef = 1;
-			$foDelay = 0; //todo
+			$foDelay = 0; //
 			$unused1 = 0x0;
 			$cbName = 0x0;
 			$unused2 = 0x0;
@@ -232,10 +232,10 @@ class PHPExcel_Writer_Excel5_Escher
 				// initialize
 				$innerData = '';
 
-				$rgbUid1 = pack('VVVV', 0,0,0,0); // todo
+				$rgbUid1 = pack('VVVV', 0,0,0,0); // 
 				$innerData .= $rgbUid1;
 
-				$tag = 0xFF; // todo
+				$tag = 0xFF; // 
 				$innerData .= pack('C', $tag);
 
 				$innerData .= $this->_object->getData();
@@ -259,10 +259,10 @@ class PHPExcel_Writer_Excel5_Escher
 				// initialize
 				$innerData = '';
 
-				$rgbUid1 = pack('VVVV', 0,0,0,0); // todo
+				$rgbUid1 = pack('VVVV', 0,0,0,0); // 
 				$innerData .= $rgbUid1;
 
-				$tag = 0xFF; // todo
+				$tag = 0xFF; // 
 				$innerData .= pack('C', $tag);
 
 				$innerData .= $this->_object->getData();
