@@ -18,5 +18,5 @@ Module = JsApi.extend({
     
 
 }, {
-    instance: null,
+
 });
