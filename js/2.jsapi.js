@@ -131,5 +131,5 @@ JsApi = Base.extend({
     
 
 }, {
-    instance: null,
+    
 });
