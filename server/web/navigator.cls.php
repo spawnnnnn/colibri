@@ -41,7 +41,7 @@
                 $isService = substr($uri, 0, 2) == '/.';
                 
                 $this->_pages = Config::Load($isService ? _SERVICES : _PAGES);
-                if ( ! ($this->_domain = Config::FindDomain($this->_pages, $domain)) )
+                if ( ! ($this->_domain = Config::FindDomain($this->_pages, $domain, true)) )
                     throw new BaseException('There is no website in configuration');
 
                 // if the url starts with . - this is a service, else a layout page
@@ -208,6 +208,14 @@
                 $p = $p->parent;
             }
             return trim($path, '/');
+        }
+     
+        public function Domain() {
+            return $this->domain->attributes->name->value;
+        }
+
+        public function Subdomain() {
+            return trim(str_replace($this->Domain(), '', Request::$i->host), '.');
         }
         
     }

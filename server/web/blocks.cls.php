@@ -153,7 +153,11 @@
                     throw new Exception('file not exists '.$file);
             
                 $content .= '/* file begin '.$file.'*/'."\n\n";
-                $content .= FileInfo::ReadAll($file)."\n\n";
+                $c = FileInfo::ReadAll($file)."\n\n";
+                $args = EventDispatcher::$i->Dispatch(new Event(null, 'assets.compile.file'), array('content' => $c));
+                if(isset($args['content']))
+                    $c = $args['content'];
+                $content .= $c;
                 $content .= '/* file end '.$file.'*/'."\n\n";
             }
             

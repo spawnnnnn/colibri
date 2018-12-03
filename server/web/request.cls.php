@@ -200,6 +200,8 @@
                     return $this->_uri;
                 case 'requesteduri':
                     return $this->_requestedUri;
+                case 'host':
+                    return $this->server->http_host;
             }
             
         }

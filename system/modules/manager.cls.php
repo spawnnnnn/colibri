@@ -31,7 +31,7 @@
             foreach($nodes as $node) {
                 
                 $domains = $node->attributes->domains ? explode(',', $node->attributes->domains->value) : array();
-                if(!in_array($domain, $domains)) {
+                if(!$this->_checkDomain($domain, $domains)) {
                     continue;
                 }
                 
@@ -39,6 +39,17 @@
                 
             }
 
+        }
+
+        private function _checkDomain($domain, $domains) {
+            foreach($domains as $d) {
+                $d = preg_quote($d);
+                $d = str_replace('\*', '.*', $d);
+                if(preg_match('/^'.$d.'$/i', $domain, $matches) > 0) {
+                    return true;
+                }
+            }
+            return false;
         }
         
         public function InitModule($node) {
@@ -50,7 +61,7 @@
             if(!$moduleEnable) {
                 return false;
             }
-                                                                                                
+
             if(_DEBUG && !is_null($moduleTemplate) && FileInfo::Exists(_MODULES.$moduleTemplate)) {
                 require_once(_MODULES.$moduleTemplate);
             }
@@ -60,7 +71,6 @@
             
             $module = CodeModel::CreateSingletonObject($moduleEntry, $node); 
             $this->_list->Add($moduleEntry, $module);
-            
             $module->InitializeModule();
             
             return $module;

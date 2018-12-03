@@ -36,7 +36,7 @@
                     }
                 }
                     
-                return !$default ? false : $xml->Query('//domain[@default="true"]')->first;
+                return !$default ? false : $xml->Query('//domain[@default]')->first;
             }
 
             return $domains->first;
