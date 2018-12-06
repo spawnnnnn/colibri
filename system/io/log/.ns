@@ -7,5 +7,5 @@
     }
     
     // insert files into files array in Core object
-    Core::$files = array_merge(Core::$files, array(_CORE.'system/io' => array('logdevice.cls.php', 'memory.cls.php')));
+    Core::$files = array_merge(Core::$files, array(_CORE.'system/io/log' => array('logdevice.cls.php', 'memory.cls.php')));
 ?>

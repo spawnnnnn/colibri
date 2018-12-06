@@ -1006,7 +1006,7 @@ function findObject(ar, v, field, ret) {
     
 }
 
-function file(v) {      
+function file(v) {
     if(!v)
         return "";
     var exts = v.split('.');
@@ -1053,7 +1053,6 @@ function paramsToObject(a) {
     })
     return obj;
 }
-
                                                             
 function _wait(ec,f){
     try{
