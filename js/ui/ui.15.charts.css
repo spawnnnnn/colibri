@@ -1,0 +1,41 @@
+.ui-chart { }
+
+.ui-chart.ui-funnel-chart {
+    display: flex;
+    flex-direction: column;
+}
+
+.ui-chart.ui-funnel-chart .ui-charts-title {
+    flex: 0 0 30px;
+}
+
+.ui-chart.ui-funnel-chart .ui-charts-content {
+    flex: 1 1;
+    padding: 20px;
+}
+
+.ui-chart.ui-funnel-chart .ui-charts-content .ui-funnel-bar {
+    width: 100%;
+    height: 20px;
+    position: relative;
+    text-align: center;
+}
+
+.ui-chart.ui-funnel-chart .ui-charts-content .ui-funnel-bar>div {
+    display: block;
+    margin: 0 auto;
+    height: 100%;
+    min-width: 50px;
+}
+
+.ui-chart.ui-funnel-chart .ui-charts-content .ui-funnel-bar>span {
+    position: absolute;
+    z-index: 1;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+

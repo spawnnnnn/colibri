@@ -1,0 +1,21 @@
+.ui-pane {
+    width: 100%;
+    height: 100%;
+    background: #f2f2f2;
+    border: 1px solid #c0c0c0;
+    overflow: auto;
+}
+
+div.ui-pane::-webkit-scrollbar-track {
+    background-color: #ccc;
+}
+
+div.ui-pane::-webkit-scrollbar  {
+    width: 5px;
+    height: 5px;
+    background-color: #f0f0f0;
+}
+
+div.ui-pane::-webkit-scrollbar-thumb {
+    background-color: #444;
+}

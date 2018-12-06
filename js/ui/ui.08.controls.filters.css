@@ -1,0 +1,98 @@
+
+.ui-filterfield {
+    font-family: Tahoma;
+    font-size: 14px;
+    padding: 4px 10px 2px;
+    margin-right: 20px;
+    margin-bottom: 5px;
+    display: inline-table;
+    vertical-align: middle;
+}
+
+.ui-filterfield br {
+    line-height: 0px;
+    font-size: 0px;
+}
+
+.ui-filterfield>div {
+    display: table-row;
+}
+
+.ui-filterfield .ui-filterfield-title,
+.ui-filterfield .ui-filterfield-input {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.ui-filterfield .ui-filterfield-title {
+    /*padding-top: 5px;*/
+    padding-right: 10px;
+    font-weight: bold;
+}
+
+.ui-filterfield-order {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+.ui-filterfield-search {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+    border-radius: 3px;
+    border: 1px solid #c0c0c0;
+    font-size: 14px;
+        
+}
+
+.ui-filterfield-order>div {
+    width: 100%;
+    display: block;
+    vertical-align: middle;
+    border: 0px;
+}
+.ui-filterfield-search>input {
+    width: 100%;
+    display: block;
+    vertical-align: middle;
+    border: 0px;
+    padding: 7px 13px 6px 13px;
+    
+} 
+
+.ui-filterfield-order>button,
+.ui-filterfield-search>button {
+    background: transparent;
+    border: 2px inset transparent;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.ui-filterfield-order .filter-order_clear,
+.ui-filterfield-search .filter-search_clear {
+    font-size: 8px;
+}
+
+.ui-filterfield-order button:hover,
+.ui-filterfield-search button:hover {
+    background: #f2f2f2;
+}
+
+.ui-filterfield-order button:active,
+.ui-filterfield-search button:active {
+    border: 2px inset #f2f2f2;
+    background: #f2f2f2;
+}
+
+.ui-filterfield-order .ui-formfield,
+.ui-filterfield-search .ui-formfield {
+    padding: 0px;
+}

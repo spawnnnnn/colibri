@@ -1,0 +1,36 @@
+.ui-pager { display: inline-flex; align-items: center; font-size: 16px;}
+
+.ui-pager>div.ui-pager-left { cursor: pointer; padding: 0px 10px; }
+.ui-pager>div.ui-pager-left em { font-size: 14px; line-height: 14px; font-weight: bold; font-style: normal; display: block; border: 1px solid #c0c0c0; padding: 5px 8px; }
+
+.ui-pager>div.ui-pager-right { cursor: pointer; padding: 0px 10px; }
+.ui-pager>div.ui-pager-right em { font-size: 14px; line-height: 14px; font-weight: bold; font-style: normal; display: block; border: 1px solid #c0c0c0; padding: 5px 8px; }
+
+.ui-pager:not(.ui-disabled)>div.ui-pager-left:hover em,
+.ui-pager:not(.ui-disabled)>div.ui-pager-right:hover em { background: #f2f2f2; }
+
+.ui-pager.ui-disabled>div.ui-pager-left em,
+.ui-pager.ui-disabled>div.ui-pager-right em { color: #c0c0c0; }
+
+.ui-pager>div.ui-pager-pages {
+    cursor: pointer; 
+    padding: 0px 5px; 
+    font-size: 16px;
+    border: 1px solid #c0c0c0; 
+    line-height: 30px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.ui-pager>div.ui-pager-pages select {
+    cursor: pointer;
+    border: 0px;
+    padding: 0px;
+    background: transparent;
+    font-size: 17px;
+    
+}
+
+.ui-pager>div.ui-pager-pages:hover {
+    background: #f2f2f2;
+}

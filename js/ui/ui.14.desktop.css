@@ -1,0 +1,72 @@
+
+.ui-desktop {
+    width: 100%;
+    min-height: 100%;
+    padding-bottom: 20px;
+
+    position: relative;
+    
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    align-content: flex-start;
+        
+}
+
+.ui-desktop .ui-widget-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.ui-desktop .ui-widget {
+    width: 33%;
+    margin-bottom: 22px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: stretch;
+}
+
+.ui-desktop .ui-widget .ui-widget-title {
+    background: #f0f0f0;
+    border: 1px solid #c0c0c0;
+    cursor: move;
+    padding: 10px;
+    color: #000;
+    font-size: 18px;
+    line-height: 26px;
+    text-shadow: 0 1px 0 white;
+    overflow: hidden;
+    text-overflow: ellipsis;    
+}
+
+.ui-desktop .ui-widget .ui-widget-close {
+    position: absolute;
+    z-index: 1;
+    right: 10px;
+}
+
+.ui-desktop .ui-widget .ui-widget-content {
+    border: 1px solid #aaaaaa;
+    background: #ffffff;
+    color: #222222;
+}
+
+.ui-desktop .ui-widget-placeholder {
+    border: 1px dotted #000;
+    background: #f9f9f9;
+}
+
+.ui-desktop .ui-context-menu-stick {
+    position: absolute;
+    z-index: 1;
+    right: 0px;
+    bottom: 0px;
+    cursor: pointer;
+}

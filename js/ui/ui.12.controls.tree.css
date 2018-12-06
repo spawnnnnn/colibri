@@ -1,0 +1,150 @@
+.ui-tree {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    border: 1px solid #c0c0c0;     
+    position: relative;   
+}
+
+.ui-tree:focus,
+.ui-tree.focus {
+    box-shadow: none;
+}
+
+.ui-tree>.contextmenu {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+
+.ui-tree::-webkit-scrollbar-track
+{
+    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
+    /*border-radius: 10px;*/
+    background-color: #a4b9cc;
+    border-left: 1px solid #a4b9cc;
+}
+
+.ui-tree::-webkit-scrollbar
+{
+    width: 5px;
+    height: 5px;
+    background-color: #F5F5F5;
+}
+
+.ui-tree::-webkit-scrollbar-thumb
+{
+    border-radius: 2px;
+    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);*/
+    background-color: #444;
+}
+
+.ui-treenodes {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    width: 100%;
+}
+
+.ui-treenode {
+    font-size: 15px;
+}
+
+.ui-tree menu menu {
+    padding: 0px;
+    display: block;
+    height: 0px;
+    overflow: hidden;
+}
+
+.ui-tree li.expanded>menu {
+    padding-left: 23px;
+    padding-top: 5px; 
+    padding-bottom: 10px;    
+    display: block;
+    height: auto;
+}
+
+.ui-treenode>p {
+    display: flex;
+    align-items: center;
+    padding: 3px 10px;
+}
+
+.ui-treenode>p>span.text {
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.ui-treenode:hover>p>span.text {
+    text-decoration: underline;
+}
+
+.ui-treenode>p>em.icon {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    margin-right: 5px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+}
+
+.ui-treenode>p>em.pointer {
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+    font-family: Arial, Tahoma, Verdana; /* hack for Edge */
+    font-style: normal;
+    font-size: 10px;
+    line-height: 10px;
+    transition: transform .2s;
+    cursor: pointer;
+}
+
+.ui-treenode>p>em.pointer:before {
+    display: block;
+    content: '●';
+}
+
+.ui-treenode.expandable>p>em.pointer:before {
+    content: '►';
+}
+
+.ui-treenode.expandable.expanded>p>em.pointer:before {
+    transform: rotate(90deg); 
+    transition: transform .2s;
+}             
+
+.ui-treenode.selected>p {
+    background: #C0C0C0;  
+}
+
+.ui-tree.focus .ui-treenode.selected>p,
+.ui-tree:focus .ui-treenode.selected>p {
+    background: #ffd25d;  
+}
+
+.ui-treenode.highlighted>p {
+    background: #f0f0f0;  
+}
+
+.ui-treenode>p>.contextmenu {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.ui-treenode-placeholder {
+    height: 10px;
+    background: #c0c0c0;
+}
+
+.ui-treenodes.moving {
+    height: 7px;
+}
+
+.ui-treenodes.moving-self {
+    border: 1px dashed #c0c0c0;   
+}

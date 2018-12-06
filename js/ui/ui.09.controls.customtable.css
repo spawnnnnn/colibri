@@ -1,0 +1,329 @@
+div.ui-table-container {
+    height: 100%;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    overflow-y: auto;
+    border: 1px solid #c0c0c0;
+}
+
+div.ui-table-container,
+div.ui-table-container * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+
+div.ui-table-container::-webkit-scrollbar-track
+{
+    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
+    /*border-radius: 10px;*/
+    background-color: #a4b9cc;
+    border-left: 1px solid #a4b9cc;
+}
+
+div.ui-table-container::-webkit-scrollbar
+{
+    width: 5px;
+    background-color: #F5F5F5;
+}
+
+div.ui-table-container::-webkit-scrollbar-thumb
+{
+    border-radius: 2px;
+    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);*/
+    background-color: #444;
+}
+
+div.ui-table-data {
+    
+}
+
+div.ui-fixed {
+    position: fixed;
+    z-index: 1;
+}
+
+div.ui-table-header {
+    background: #f2f2f2;
+}
+
+div.ui-table[rel=table] {
+    width: 100%;
+    display: table;
+    font-family: Tahoma;
+    /*padding-bottom: 10px;*/
+    table-layout: fixed;
+}
+
+div.ui-table[rel=table] div[rel=th] {
+    font-weight: bold;
+    width: 100%;
+    display: table-row;
+    border-bottom: 1px solid #c0c0c0;
+}
+
+div.ui-table[rel=table] div[rel=tr] {
+    width: 100%;
+    display: table-row;
+}
+
+div.ui-table[rel=table] div[rel=tr] div[rel=td],
+div.ui-table[rel=table] div[rel=th] div[rel=td] {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: left;
+    font-size: 14px;
+}
+
+
+div.ui-table[rel=table] div[rel=th] div[rel=td].sortable {
+    cursor: pointer;
+}
+
+div.ui-table[rel=table] div[rel=th] div[rel=td] {
+    border-bottom: 1px solid #c0c0c0;
+    border-right: 1px solid #c0c0c0;
+    padding: 10px 5px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+div.ui-table[rel=table] div[rel=th] div[rel=td]:last-child {
+    border-right: 0px;
+}
+
+div.ui-table[rel=table] div[rel=tr] div[rel=td] {
+    padding: 10px 5px;
+    border-bottom: 1px solid #f2f2f2;
+    border-right: 1px solid #f7f7f7;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    /*white-space: nowrap;*/
+}
+
+div.ui-table[rel=table] div[rel=th] div[rel=td] {
+    position: relative;
+}
+
+div.ui-table[rel=table] div[rel=th] div[rel=td] em {
+    content: '';
+    position: absolute;
+    cursor: e-resize;
+    width: 5px;
+    height: 100%;
+    right: 0px;
+    top: 0px;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+0,1+100 */
+    background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+}
+
+div.ui-table[rel=table] div[rel=th] div[rel=td].sortable span {
+    font-size: 10px;
+    display: block;
+    float: right;
+    margin-top: 2px;
+}
+
+div.ui-table[rel=table] div[rel=th] div[rel=td].sortable span.asc:before {
+    content: '▲';
+}
+
+div.ui-table[rel=table] div[rel=th] div[rel=td].sortable span.desc:before {
+    content: '▼';
+}
+
+div.ui-table[rel=table] div[rel=th] div[rel=td].numeric,
+div.ui-table[rel=table] div[rel=tr] div[rel=td].numeric {
+    text-align: right;
+}
+
+div.ui-table[rel=table] div[rel=th] div[rel=td].numeric.lookup,
+div.ui-table[rel=table] div[rel=tr] div[rel=td].numeric.lookup {
+    text-align: left;
+}
+
+div.ui-table[rel=table] div[rel=th] div[rel=td].numeric.values,
+div.ui-table[rel=table] div[rel=tr] div[rel=td].numeric.values {
+    text-align: left;
+}
+
+div.ui-table[rel=table] div[rel=tr] div[rel=td]:last-child {
+    border-right: 0px;
+}
+
+div.ui-table[rel=table] div[rel=tr]:hover div[rel=td] {
+    background: #f2f2f2;
+}
+
+div.ui-table-container.focus div.ui-table-data div[rel=tr].selected div[rel=td],
+div.ui-table-container:focus div.ui-table-data div[rel=tr].selected div[rel=td] {
+    color: #000;
+    background: #cce8ff;
+}
+
+div.ui-table-container div.ui-table-data div[rel=tr] div[rel=td] span.s,
+div.ui-table-container div.ui-table-data div[rel=tr] div[rel=td] span.s {
+    font-size: 11px;
+    display: block;
+    margin-top: 1px;
+}
+
+div.ui-table-container.focus div.ui-table-data div[rel=tr].selected div[rel=td] span.s,
+div.ui-table-container:focus div.ui-table-data div[rel=tr].selected div[rel=td] span.s {
+    font-weight: bold;
+}
+
+div.ui-table[rel=table] div[rel=tr].blocked div[rel=td] {
+    color: #ccc;
+    background: #f0f0f0;
+}
+
+div.ui-table[rel=table] div[rel=tr].selected div[rel=td] {
+    color: #000;
+    background: #e2e2e2;
+}
+
+div.ui-table[rel=table] div[rel=tr] div[rel=td].ui-opts {
+    width: 50px;
+}
+
+div[rel=td-empty] {
+    display: block;
+    width: 100%;
+    font-size: 12px;
+    color: #c0c0c0;
+    text-align: center;
+    font-family: Tahoma;
+    padding: 10px 0px;
+    margin-bottom: 10px;
+}
+
+div.ui-table[rel=table] div[rel=tr] div[rel=td] input[type=text],
+div.ui-table[rel=table] div[rel=tr] div[rel=td] input[type=password],
+div.ui-table[rel=table] div[rel=tr] div[rel=td] select {
+    font-size: 14px;
+    background: transparent;
+    border: 1px solid transparent;
+    border: 0;
+    width: 100%;
+}
+
+div.ui-table[rel=table] div[rel=tr] div[rel=td] input.text {
+    text-align: left;
+}
+
+div.ui-table[rel=table] div[rel=tr] div[rel=td] input.numeric {
+    text-align: right;
+}
+
+div.ui-table[rel=table] div[rel=tr] div[rel=td] input:focus,
+div.ui-table[rel=table] div[rel=tr] div[rel=td] input.focus {
+    border: 1px solid #c0c0c0;
+    background: #fff;
+}
+
+div.ui-table[rel=table] div[rel=tr]:nth-child(even):not(.selected):not(.error) {
+    background: #f9f9f9;
+}
+
+div.ui-table[rel=table] div[rel=tr].error div[rel=td] {
+    background-color: #ffa4a4;
+    border-bottom: 2px solid #f00;
+    border-top: 2px solid #f00;
+}
+
+div.ui-table[rel=table] div[rel=tr] div[rel=td] a.tree-pointer {
+    background: url() center center no-repeat;
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+    margin-top: -2px;
+}
+
+div.ui-table[rel=table] div[rel=tr] div[rel=td] a.plus {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QjY3N0YzOEE5MkYyMTFFNjg3NUU5MTQ1MTY0MDBDN0MiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QjY3N0YzOEI5MkYyMTFFNjg3NUU5MTQ1MTY0MDBDN0MiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCNjc3RjM4ODkyRjIxMUU2ODc1RTkxNDUxNjQwMEM3QyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCNjc3RjM4OTkyRjIxMUU2ODc1RTkxNDUxNjQwMEM3QyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PueMnCMAAACiSURBVHjaYvz//z8DLQATA43A0DOYBV2AkZGRrEAHxhUjXoNB4NevXyQZysbGRtjFIPD792/qBwUI/PjxA0PMwcEBTB84cIC6BhMjR9Dg79+/49SAT45og6OiojDkAgMD4exly5ZRz8XEqsNq8Ldv38D05MmT4WK5ubkYYjB1gyeMqW4wtiRVWVlJeXIjVjM+wIhe0FOrEGIcrUFobjBAgAEANWdVhJI/09gAAAAASUVORK5CYII=);
+}
+div.ui-table[rel=table] div[rel=tr] div[rel=td] a.minus {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QkQyNzRCRkE5MkYyMTFFNjkwNzBBQzI2NDRGRjAxODAiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QkQyNzRCRkI5MkYyMTFFNjkwNzBBQzI2NDRGRjAxODAiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCRDI3NEJGODkyRjIxMUU2OTA3MEFDMjY0NEZGMDE4MCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCRDI3NEJGOTkyRjIxMUU2OTA3MEFDMjY0NEZGMDE4MCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PmkrucAAAAB6SURBVHjaYvz//z8DLQATA43A0DOYBV2AkZGRrEAHxhUjXoNB4NevXyQZysbGRtjFIPD792/qBwUI/PjxY4gZ/P37d9oaHBUVhVfzsmXLaONifOqwGvzt2zcwPXnyZLwGw9QNnjAeWemYEb2gp1YhxDhag9DcYIAAAwCn6z6nBALsGgAAAABJRU5ErkJggg==);
+}
+div.ui-table[rel=table] div[rel=tr] div[rel=td] a.leaf {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6Qzg1QzQ2QkQ5MkYyMTFFNkFBMUJFNUY4NEI0RUZFODQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6Qzg1QzQ2QkU5MkYyMTFFNkFBMUJFNUY4NEI0RUZFODQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDODVDNDZCQjkyRjIxMUU2QUExQkU1Rjg0QjRFRkU4NCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpDODVDNDZCQzkyRjIxMUU2QUExQkU1Rjg0QjRFRkU4NCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pit8IewAAAB6SURBVHja5JRLCsAgDESNFA/ptbyDRzRiFmnTpf2XRmo7IEKURzKEscxsNI41SuoPPNQFAOA7oMlX2AWLSimXoM65445FRPS8FaKcc2dgRGwH9t7Pd4xRp+Oz06yCU0qLWghh8+2dHn9/j0FCuUkI1R/+E/Rq4FGAAQCNiH1tCHmCOgAAAABJRU5ErkJggg==);
+}
+
+
+div.ui-table-container .select2-container {
+    border: 1px solid transparent; 
+    border-radius: 0px;
+    background: transparent;
+}
+
+div.ui-table .template-content {
+    padding: 0px;
+    border-bottom: 1px solid rgba(255,255,255,0.5);
+}
+
+div.ui-table .template-content:empty {
+    display: none;
+}
+
+div.ui-table .template-content .ui-template-table {
+    width: 100%;
+}
+
+div.ui-table .template-content .ui-template-table tr th,
+div.ui-table .template-content .ui-template-table tr td {
+    border-right: 1px solid rgba(255,255,255,0.5);
+    padding: 5px 5px;
+}
+
+div.ui-table .template-content .ui-template-table tr th:last-child,
+div.ui-table .template-content .ui-template-table tr td:last-child {
+    border-right: 0px;
+}
+
+div.ui-table .template-content .ui-template-table tr th {
+    border-bottom: 1px solid rgba(255,255,255,0.5);
+}
+
+div.ui-table .template-content {
+    opacity: 0.5;
+}
+
+div.ui-table .selected .template-content {
+    opacity: 1;
+}
+
+.small {
+    display: block;
+    font-size: 11px;
+}
+
+.tree-info {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.ui-table-content {
+    margin: 10px;
+    width: calc(100% - 20px);
+    border: 1px solid #c0c0c0;
+}
+
+.ui-table-content-title {
+    width: 200px;
+    font-weight: bold;
+    padding: 5px 10px;
+}
+
+.ui-table-content-value {
+    padding: 5px 10px;
+    
+}

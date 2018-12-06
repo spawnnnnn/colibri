@@ -1,0 +1,72 @@
+.ui-contextmenu {
+    background: #fff;
+    position: absolute;
+    display: none;
+    border: 1px solid #c0c0c0;
+    box-shadow: 10px 10px 20px rgba(0,0,0,0.4);
+}
+
+.ui-contextmenu>div {
+    position: relative;
+}
+
+.ui-contextmenu>div>span {
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    border-bottom: 1px solid #c0c0c0;
+    padding: 15px 10px 10px 10px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.ui-contextmenu>div.selected>span,
+.ui-contextmenu>div>span:hover {
+    background: #f2f2f2;
+}
+
+.ui-contextmenu>div>span span:last-child {
+    border-bottom: 0px;
+    white-space: nowrap;
+}
+
+.ui-contextmenu>div>span>.ui-icon {
+    width: 20px;
+    height: 20px;
+    background: none !important;
+    margin-right: 8px;
+    flex: 1 0 20px;
+}
+.ui-contextmenu>div>span>.ui-icon img {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.ui-contextmenu>div>span>.ui-text {
+    font-size: 14px;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.ui-contextmenu>div>span>.ui-keyboard {
+    font-size: 14px;
+    text-align: right;
+    flex: 1 0 25px;
+} 
+
+.ui-contextmenu>div>span>.ui-childs {
+    font-size: 10px;
+    text-align: right;
+    flex: 1 1 25px;
+}
+
+.ui-contextmenu>div .ui-contextmenu {
+    display: none;
+}    
+
+.ui-contextmenu>div:hover .ui-contextmenu {
+    display: block;
+    left: 100%;                        
+    top: 0px;
+}
